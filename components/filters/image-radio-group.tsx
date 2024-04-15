@@ -81,6 +81,31 @@ export function ImageRadioCard({ radioGroupData, className='' }) {
       {/* <CardFooter>
           <Button className="w-full">Continue</Button>
         </CardFooter> */}
+      {/* ! RIMUOVI */}
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+        {selectedValue && (
+          <Button
+            className="absolute rounded-full py-1 px-2  top-2 right-2 bg-transparent hover:bg-transparent"
+            onClick={() => setSelectedValue(null)}
+          >
+            <CircleX className="text-destructive/90 hover:text-destructive"></CircleX>
+          </Button>
+        )}
+      </CardHeader>
+      <CardContent className="grid gap-6">
+        <RadioGroup
+          /* defaultValue="card" */
+          className="flex flex-wrap justify-center max-w-[1200px] gap-4"
+          onValueChange={handleRadioChange}
+          value={selectedValue}
+        >
+          {items.map((item) => (
+            <ImageRadioItem key={item.value} itemData={item} />
+          ))}
+        </RadioGroup>
+      </CardContent>
     </Card>
   );
 }
