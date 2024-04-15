@@ -25,14 +25,14 @@ import {
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { cn } from "@/lib/utils"
 
-function ImageRadioItem({ itemData}) {
+function ImageRadioItem({ itemData, group}) {
   const { text, value, image } = itemData;
   return (
     <div>
-      <RadioGroupItem value={value} id={value} className="peer sr-only" />
+      <RadioGroupItem value={value} id={`${group}-${value}`} className="peer sr-only" />
       <Label
-        htmlFor={value}
-        className="w-[300px] flex flex-col gap-4 items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:cursor-pointer hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+        htmlFor={`${group}-${value}`}
+        className="w-[300px] flex flex-col gap-4 items-center justify-between rounded-md border-2 border-muted bg-popover p-2 hover:cursor-pointer hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
       >
         <AspectRatio ratio={12 / 3}>
           <img src={image} alt="" className="rounded-md" />
@@ -46,7 +46,7 @@ function ImageRadioItem({ itemData}) {
 }
 
 export function ImageRadioCard({ radioGroupData, className='' }) {
-  const { title, description, items } = radioGroupData;
+  const { id, title, description, items } = radioGroupData;
   const [selectedValue, setSelectedValue] = useState(null);
 
   const handleRadioChange = (value: string) => {
@@ -74,7 +74,7 @@ export function ImageRadioCard({ radioGroupData, className='' }) {
           value={selectedValue}
         >
           {items.map((item) => (
-            <ImageRadioItem key={item.value} itemData={item} />
+            <ImageRadioItem key={item.value} group={id} itemData={item} />
           ))}
         </RadioGroup>
       </CardContent>
@@ -82,30 +82,7 @@ export function ImageRadioCard({ radioGroupData, className='' }) {
           <Button className="w-full">Continue</Button>
         </CardFooter> */}
       {/* ! RIMUOVI */}
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-        {selectedValue && (
-          <Button
-            className="absolute rounded-full py-1 px-2  top-2 right-2 bg-transparent hover:bg-transparent"
-            onClick={() => setSelectedValue(null)}
-          >
-            <CircleX className="text-destructive/90 hover:text-destructive"></CircleX>
-          </Button>
-        )}
-      </CardHeader>
-      <CardContent className="grid gap-6">
-        <RadioGroup
-          /* defaultValue="card" */
-          className="flex flex-wrap justify-center max-w-[1200px] gap-4"
-          onValueChange={handleRadioChange}
-          value={selectedValue}
-        >
-          {items.map((item) => (
-            <ImageRadioItem key={item.value} itemData={item} />
-          ))}
-        </RadioGroup>
-      </CardContent>
+      
     </Card>
   );
 }
