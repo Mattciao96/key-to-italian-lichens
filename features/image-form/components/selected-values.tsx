@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CircleX } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export default function SelectedValues({ form, radioData}) {
+export default function SelectedValues({ form, radioData }) {
   const values = form.watch();
 
   return (
@@ -39,17 +39,18 @@ export function SelectedValue({ form, group, value }) {
   };
 
   return (
-    <div key={group.id}>
-      <span>
+    <div key={group.id} className="w-full flex justify-end items-center">
+      <div className="p-2 w-full">
         {group.title}: {getText()}
-      </span>
+      </div>
+   
+        <Button
+          className="rounded-full bg-transparent hover:bg-transparent"
+          onClick={unsetValue}
+        >
+          <CircleX className="text-destructive/90 hover:text-destructive"></CircleX>
+        </Button>
 
-      <Button
-        className=" rounded-full bg-transparent hover:bg-transparent"
-        onClick={unsetValue}
-      >
-        <CircleX className="text-destructive/90 hover:text-destructive"></CircleX>
-      </Button>
     </div>
   );
 }

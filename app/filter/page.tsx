@@ -1,13 +1,10 @@
-import { filterData } from "@/data/filter-data";
-import { ImageRadioCard } from "@/components/filters/image-radio-group";
+'use client'
+import  RadioGroupForm  from "@/features/image-form/components/form";
 
-export default function Filter() {
+export default function App() {
   return (
-    <div className="p-10">
-      {filterData.map((filter) => (
-        
-        <ImageRadioCard className='my-10' key={filter.title} radioGroupData={filter} />
-      ))}
+    <div className="">
+      <RadioGroupForm />
     </div>
   );
 }

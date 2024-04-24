@@ -1,16 +1,16 @@
 "use client";
+import  Link  from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
+
 import RadioImageGroupForm from "@/features/image-form/components/radio-image-group";
 import SelectedValues from "@/features/image-form/components/selected-values";
 import { filterData } from "@/features/image-form/data/filter-data";
 const radioData = filterData;
-
 
 const FormSchema = z.object({
   4: z.optional(z.string()),
@@ -26,24 +26,14 @@ export default function RadioGroupForm() {
     resolver: zodResolver(FormSchema),
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  }
-
   return (
-    <Form {...form}>
-      <div className="relative grid grid-cols-2 bg-zinc-700">
-     
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <>
+      <div className="sticky top-0 z-10 bg-yellow-200 shadow-bottom p-2">
+        <h1 className="text-lg font-bold">Key to Italian Lichens</h1>
+      </div>
+      <Form {...form}>
+        <div className="relative md:grid md:grid-cols-[1fr_300px]">
+          <form /* onSubmit={form.handleSubmit(onSubmit)} */ className="space-y-6">
             {radioData.map((groupData) => (
               <RadioImageGroupForm
                 key={groupData.id}
@@ -51,17 +41,47 @@ export default function RadioGroupForm() {
                 groupData={groupData}
               />
             ))}
-            <Button type="submit">Submit</Button>
+            <Button asChild type="submit">
+              <Link
+                href={{
+                  pathname: "/key",
+                  query: form.getValues()
+                }}
+              >
+                About
+              </Link>
+            </Button>
           </form>
-      
-   
-          <SelectedValues
-            
-            form={form}
-            radioData={radioData}
-          />
-   
+          <div className="h-10 none md:sticky top-7">
+            <div className="relative overflow-hidden pb-10">
+              <SelectedValues form={form} radioData={radioData} />
+            </div>
+          </div>
+        </div>
+      </Form>
+      <MobileBottomNavbar />
+    </>
+  );
+}
+
+export function MobileBottomNavbar() {
+  return (
+    <div className="justify-evenly md:hidden bottom-0 left-0 right-0 bg-white shadow-top p-2 flex  w-full">
+      <div className="flex justify-center items-center">
+        <Button className="text-xl">
+          <span className="sr-only">Previous</span>
+          {"<"}
+        </Button>
       </div>
-    </Form>
+      <div className="flex justify-center items-center">
+        <Button className="text-xl">Submit</Button>
+      </div>
+      <div className="flex justify-center items-center">
+        <Button className="text-xl">
+          <span className="sr-only">Next</span>
+          {">"}
+        </Button>
+      </div>
+    </div>
   );
 }
