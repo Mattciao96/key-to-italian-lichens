@@ -1,6 +1,6 @@
 export const filterData = [
   {
-    id: 4,
+    id: "4",
     title: "Substratum",
     items: [
       { text: "Bark and wood", value: "1", image: "bark.png" },
@@ -13,7 +13,7 @@ export const filterData = [
     ],
   },
   {
-    id: 26,
+    id: "26",
     title: "Thallus",
     items: [
       { text: "Fruticose", value: "1", image: "fruticose.png" },
@@ -25,7 +25,7 @@ export const filterData = [
     ],
   },
   {
-    id: 45,
+    id: "45",
     title: "Thallus",
     items: [
       { text: "Crustose or leprose", value: "2", image: "crustose.png" },
@@ -37,9 +37,9 @@ export const filterData = [
     ],
   },
   {
-    id: 53,
+    id: "53",
     title: "Thallus",
-    depend: { id: 45, item: "2" },
+    depend: { id: "45", item: "2" },
     items: [
       {
         text: "Crustose-placodioid, with marginal lobes",
@@ -54,7 +54,7 @@ export const filterData = [
     ],
   },
   {
-    id: 11,
+    id: "11",
     title: "Main photobiont",
 
     items: [
@@ -67,9 +67,9 @@ export const filterData = [
     ],
   },
   {
-    id: 7,
+    id: "7",
     title: "Photobiont",
-    depend: { id: 11, item: "2" },
+    depend: { id: "11", item: "2" },
 
     items: [
       {

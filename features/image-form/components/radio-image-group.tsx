@@ -20,7 +20,7 @@ export default function RadioImageGroupForm({ form, groupData }) {
   //1: watch the value it depends on
   const watchDependValue = groupData.depend ? form.watch(groupData.depend.id.toString()) : undefined;
   //2: if the depend item is not selected, hide the group
-  if (groupData.depend && watchDependValue !== groupData.depend.item.toString()) {
+  if (groupData.depend && watchDependValue !== groupData.depend.item) {
 
     //3: remove the value from the form only if is not already undefined (otherwise it wil trigger infinite rerenders)
     if (form.getValues(groupData.id.toString())) {
