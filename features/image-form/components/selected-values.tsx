@@ -3,6 +3,7 @@ import { UseFormReturn } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { CircleX } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ResetFieldButton from "@/features/image-form/components/reset-field-button";
 
 export default function SelectedValues({ form, radioData }) {
   const values = form.watch();
@@ -29,11 +30,6 @@ export default function SelectedValues({ form, radioData }) {
 }
 
 export function SelectedValue({ form, group, value }) {
-  const unsetValue = () => {
-    //form.setValue(group.id.toString(), undefined);
-    form.resetField(group.id.toString(), { defaultValue: null });
-  };
-
   const getText = () => {
     const item = group.items.find((item) => item.value === value);
     return item?.text || value;
@@ -44,14 +40,7 @@ export function SelectedValue({ form, group, value }) {
       <div className="p-2 w-full">
         {group.title}: {getText()}
       </div>
-   
-        <Button
-          className="rounded-full bg-transparent hover:bg-transparent"
-          onClick={unsetValue}
-        >
-          <CircleX className="text-destructive/90 hover:text-destructive"></CircleX>
-        </Button>
-
+      <ResetFieldButton form={form} groupData={group}/>
     </div>
   );
 }

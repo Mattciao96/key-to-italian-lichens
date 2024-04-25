@@ -58,7 +58,7 @@ export default function RadioGroupForm() {
               </Link>
             </Button>
           </form>
-          <div className="h-10 none md:sticky top-7">
+          <div className="h-10 none md:sticky top-12">
             <div className="relative overflow-hidden pb-10">
               <SelectedValues form={form} radioData={radioData} />
             </div>

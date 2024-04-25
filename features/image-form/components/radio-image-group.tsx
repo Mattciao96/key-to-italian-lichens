@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import RadioImageItem from "@/features/image-form/components/radio-image-item";
+import ResetFieldButton from "@/features/image-form/components/reset-field-button";
 import {
   FormControl,
   FormField,
@@ -13,11 +14,12 @@ import { Button } from "@/components/ui/button";
 import { CircleX } from "lucide-react";
 
 /**
- * With form.watch it check if the form item should be rendered 
+ * With form.watch it check if the form item should be rendered
  */
 export default function RadioImageGroupForm({ form, groupData }) {
-
-  const watchDependValue = groupData.depend ? form.watch(groupData.depend.id) : undefined;
+  const watchDependValue = groupData.depend
+    ? form.watch(groupData.depend.id)
+    : undefined;
 
   useEffect(() => {
     // 2: if the depend item is not selected, hide the group
@@ -33,23 +35,19 @@ export default function RadioImageGroupForm({ form, groupData }) {
     return null;
   }
 
-  
-
   return (
     <FormField
       control={form.control}
       name={groupData.id}
       render={({ field }) => (
         <FormItem className="relative space-y-3">
-
           <FormLabel>{groupData.title}</FormLabel>
 
           <FormControl>
             <RadioGroup
               onValueChange={field.onChange}
-              value={field.value? field.value : ""}
+              value={field.value ? field.value : ""}
               className="flex flex-row flex-wrap justify-center space-y-1"
-              
             >
               {groupData.items.map((item) => (
                 <RadioImageItem
@@ -58,25 +56,17 @@ export default function RadioImageGroupForm({ form, groupData }) {
                   item={item}
                 />
               ))}
-              
             </RadioGroup>
           </FormControl>
-          
+
           <FormMessage />
           {field.value && (
             <FormItem className="absolute py-1 px-2  top-2 right-2 ">
               <FormControl>
-                <Button
-                  className=" rounded-full bg-transparent hover:bg-transparent"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    console.log(form);
-   
-                    form.resetField(groupData.id, { defaultValue: null });
-                  }}
-                >
-                  <CircleX className="text-destructive/90 hover:text-destructive"></CircleX>
-                </Button>
+                <ResetFieldButton
+                  form={form}
+                  groupData={groupData}
+                ></ResetFieldButton>
               </FormControl>
             </FormItem>
           )}
