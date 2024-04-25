@@ -20,7 +20,7 @@ export default function SelectedValues({ form, radioData }) {
         className="w-full"
       >
         <AccordionItem value="item-1">
-          <AccordionTrigger className="pl-2 pr-[15px]">
+          <AccordionTrigger className=" pr-[15px]">
             Selected values
           </AccordionTrigger>
           <AccordionContent>
