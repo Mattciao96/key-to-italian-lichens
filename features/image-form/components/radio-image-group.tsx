@@ -18,13 +18,13 @@ export default function RadioImageGroupForm({ form, groupData }) {
 
   // hide the group if the depend item is not selected and REMOVE the value from the form
   //1: watch the value it depends on
-  const watchDependValue = groupData.depend ? form.watch(groupData.depend.id.toString()) : undefined;
+  const watchDependValue = groupData.depend ? form.watch(groupData.depend.id) : undefined;
   //2: if the depend item is not selected, hide the group
   if (groupData.depend && watchDependValue !== groupData.depend.item) {
 
     //3: remove the value from the form only if is not already undefined (otherwise it wil trigger infinite rerenders)
-    if (form.getValues(groupData.id.toString())) {
-      form.resetField(groupData.id.toString());
+    if (form.getValues(groupData.id)) {
+      form.resetField(groupData.id);
     }
 
 
@@ -37,7 +37,7 @@ export default function RadioImageGroupForm({ form, groupData }) {
   return (
     <FormField
       control={form.control}
-      name={groupData.id.toString()}
+      name={groupData.id}
       render={({ field }) => (
         <FormItem className="relative space-y-3">
 
@@ -46,7 +46,7 @@ export default function RadioImageGroupForm({ form, groupData }) {
           <FormControl>
             <RadioGroup
               onValueChange={field.onChange}
-              value={field.value? field.value.toString() : ""}
+              value={field.value? field.value : ""}
               className="flex flex-row flex-wrap justify-center space-y-1"
               
             >
@@ -70,8 +70,8 @@ export default function RadioImageGroupForm({ form, groupData }) {
                   onClick={(e) => {
                     e.preventDefault();
                     console.log(form);
-                    //form.setValue(group.id.toString(), undefined);
-                    form.resetField(groupData.id.toString(), { defaultValue: null });
+   
+                    form.resetField(groupData.id, { defaultValue: null });
                   }}
                 >
                   <CircleX className="text-destructive/90 hover:text-destructive"></CircleX>

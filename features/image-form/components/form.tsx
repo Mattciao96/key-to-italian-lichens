@@ -13,20 +13,20 @@ import { filterData } from "@/features/image-form/data/filter-data";
 const radioData = filterData;
 
 const FormSchema = z.object({
-  4: z.optional(z.enum(["1", '2', '3'])),
-  26: z.optional(z.enum(['1', '2'])),
-  45: z.optional(z.enum(['1', '2'])),
-  53: z.optional(z.enum(['1', '2'])),
-  11: z.optional(z.enum(['1', '2'])),
-  7: z.optional(z.enum(['1', '2'])),
+  "4": z.optional(z.enum(["1", "2", "3"])),
+  "26": z.optional(z.enum(["1", "2"])),
+  "45": z.optional(z.enum(["1", "2"])),
+  "53": z.optional(z.enum(["1", "2"])),
+  "11": z.optional(z.enum(["1", "2"])),
+  "7": z.optional(z.enum(["1", "2"])),
 });
 
 export default function RadioGroupForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      4: '1',
-      45: '2',
+      "4": "1",
+      "45": "2",
     },
   });
 

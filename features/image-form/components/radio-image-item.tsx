@@ -4,26 +4,12 @@ import { FormItem, FormControl, FormLabel } from "@/components/ui/form";
 import { RadioGroupItem } from "@/components/ui/radio-group";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
-/* export default function RadioImageItem({ item }) {
-  return (
-    <FormItem
-      key={item.value}
-      className="flex items-center space-x-3 space-y-0"
-    >
-      <FormControl>
-        <RadioGroupItem value={item.value.toString()} />
-      </FormControl>
-      <FormLabel className="font-normal">{item.text}</FormLabel>
-    </FormItem>
-  );
-} */
-
 export default function RadioImageItem({ groupId, item }) {
   return (
     <FormItem className="flex items-center space-x-3 space-y-0">
       <FormControl>
         <RadioGroupItem
-          value={item.value? item.value.toString() : ""}
+          value={item.value? item.value : ""}
           className="peer sr-only"
           id={`${groupId}-${item.value}`}
         /> 
