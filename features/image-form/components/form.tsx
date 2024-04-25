@@ -13,7 +13,7 @@ import { filterData } from "@/features/image-form/data/filter-data";
 const radioData = filterData;
 
 const FormSchema = z.object({
-  4: z.optional(z.string()),
+  4: z.optional(z.literal([1, 2, 3])),
   26: z.optional(z.string()),
   45: z.optional(z.string()),
   53: z.optional(z.string()),
