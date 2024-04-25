@@ -32,8 +32,8 @@ export default function RadioGroupForm() {
 
   return (
     <>
-      <div className="sticky top-0 z-10 bg-yellow-200 shadow-bottom p-2">
-        <h1 className="text-lg font-bold">Key to Italian Lichens</h1>
+      <div className="sticky top-0 z-10 bg-teal-100 shadow-bottom p-2">
+        <h1 className="pl-10 text-xl ">Key to Italian Lichens</h1>
       </div>
       <Form {...form}>
         <div className="relative md:grid md:grid-cols-[1fr_300px]">

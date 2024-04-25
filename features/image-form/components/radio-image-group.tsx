@@ -61,7 +61,7 @@ export default function RadioImageGroupForm({ form, groupData }) {
 
           <FormMessage />
           {field.value && (
-            <FormItem className="absolute py-1 px-2  top-2 right-2 ">
+            <FormItem className="absolute py-1 px-2  -top-2 right-2 ">
               <FormControl>
                 <ResetFieldButton
                   form={form}
