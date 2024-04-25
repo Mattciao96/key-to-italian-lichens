@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import RadioImageItem from "@/features/image-form/components/radio-image-item";
 import {
   FormControl,
@@ -16,19 +17,19 @@ import { CircleX } from "lucide-react";
  */
 export default function RadioImageGroupForm({ form, groupData }) {
 
-  // hide the group if the depend item is not selected and REMOVE the value from the form
-  //1: watch the value it depends on
   const watchDependValue = groupData.depend ? form.watch(groupData.depend.id) : undefined;
-  //2: if the depend item is not selected, hide the group
-  if (groupData.depend && watchDependValue !== groupData.depend.item) {
 
-    //3: remove the value from the form only if is not already undefined (otherwise it wil trigger infinite rerenders)
-    if (form.getValues(groupData.id)) {
-      form.resetField(groupData.id);
+  useEffect(() => {
+    // 2: if the depend item is not selected, hide the group
+    if (groupData.depend && watchDependValue !== groupData.depend.item) {
+      // 3: remove the value from the form only if is not already undefined (otherwise it wil trigger infinite rerenders)
+      if (form.getValues(groupData.id)) {
+        form.resetField(groupData.id);
+      }
     }
+  }, [watchDependValue, form, groupData]);
 
-
-
+  if (groupData.depend && watchDependValue !== groupData.depend.item) {
     return null;
   }
 
