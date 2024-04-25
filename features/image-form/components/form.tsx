@@ -58,11 +58,10 @@ export default function RadioGroupForm() {
               </Link>
             </Button>
           </form>
-          <div className="h-10 none md:sticky top-12">
-            <div className="relative overflow-hidden pb-10">
-              <SelectedValues form={form} radioData={radioData} />
-            </div>
-          </div>
+          {/* <div className="none md:sticky  sticky top-10 pt-10 h-screen overflow-y-auto border-l border-border"> */}
+         {/*  <div className="none md:fixed w-[290px] md:top-10 md:right-0 pt-10 h-screen overflow-y-auto"> */}
+            <SelectedValues form={form} radioData={radioData} />
+          {/* </div> */}
         </div>
       </Form>
       <MobileBottomNavbar />
