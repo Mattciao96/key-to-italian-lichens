@@ -11,8 +11,8 @@ export default function SelectedValues({ form, radioData }) {
     <div>
       <h2>Selected Values:</h2>
       {radioData.map((group) => {
-        const value = values[group.id.toString()];
-        if (value !== undefined) {
+        const value = values[group.id];
+        if (value !== undefined && value !== null) {
           return (
             <SelectedValue
               key={group.id}
@@ -30,11 +30,12 @@ export default function SelectedValues({ form, radioData }) {
 
 export function SelectedValue({ form, group, value }) {
   const unsetValue = () => {
-    form.setValue(group.id.toString(), undefined);
+    //form.setValue(group.id.toString(), undefined);
+    form.resetField(group.id.toString(), { defaultValue: null });
   };
 
   const getText = () => {
-    const item = group.items.find((item) => item.value.toString() === value);
+    const item = group.items.find((item) => item.value === value);
     return item?.text || value;
   };
 

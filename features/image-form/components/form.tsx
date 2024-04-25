@@ -1,5 +1,5 @@
 "use client";
-import  Link  from "next/link";
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -13,17 +13,21 @@ import { filterData } from "@/features/image-form/data/filter-data";
 const radioData = filterData;
 
 const FormSchema = z.object({
-  4: z.optional(z.literal([1, 2, 3])),
-  26: z.optional(z.string()),
-  45: z.optional(z.string()),
-  53: z.optional(z.string()),
-  11: z.optional(z.string()),
-  7: z.optional(z.string()),
+  4: z.optional(z.enum(["1", '2', '3'])),
+  26: z.optional(z.enum(['1', '2'])),
+  45: z.optional(z.enum(['1', '2'])),
+  53: z.optional(z.enum(['1', '2'])),
+  11: z.optional(z.enum(['1', '2'])),
+  7: z.optional(z.enum(['1', '2'])),
 });
 
 export default function RadioGroupForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      4: '1',
+      45: '2',
+    },
   });
 
   return (
@@ -33,7 +37,9 @@ export default function RadioGroupForm() {
       </div>
       <Form {...form}>
         <div className="relative md:grid md:grid-cols-[1fr_300px]">
-          <form /* onSubmit={form.handleSubmit(onSubmit)} */ className="space-y-6">
+          <form
+            /* onSubmit={form.handleSubmit(onSubmit)} */ className="space-y-6"
+          >
             {radioData.map((groupData) => (
               <RadioImageGroupForm
                 key={groupData.id}
@@ -45,7 +51,7 @@ export default function RadioGroupForm() {
               <Link
                 href={{
                   pathname: "/key",
-                  query: form.getValues()
+                  query: form.getValues(),
                 }}
               >
                 About

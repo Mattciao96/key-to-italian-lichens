@@ -23,7 +23,7 @@ export default function RadioImageItem({ groupId, item }) {
     <FormItem className="flex items-center space-x-3 space-y-0">
       <FormControl>
         <RadioGroupItem
-          value={item.value.toString()}
+          value={item.value? item.value.toString() : ""}
           className="peer sr-only"
           id={`${groupId}-${item.value}`}
         /> 

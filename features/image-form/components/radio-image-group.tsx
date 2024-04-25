@@ -10,7 +10,7 @@ import {
 import { RadioGroup } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { CircleX } from "lucide-react";
-import { log } from "console";
+
 /**
  * With form.watch it check if the form item should be rendered 
  */
@@ -46,8 +46,9 @@ export default function RadioImageGroupForm({ form, groupData }) {
           <FormControl>
             <RadioGroup
               onValueChange={field.onChange}
-              value={field.value || ""}
+              value={field.value? field.value.toString() : ""}
               className="flex flex-row flex-wrap justify-center space-y-1"
+              
             >
               {groupData.items.map((item) => (
                 <RadioImageItem
@@ -68,7 +69,9 @@ export default function RadioImageGroupForm({ form, groupData }) {
                   className=" rounded-full bg-transparent hover:bg-transparent"
                   onClick={(e) => {
                     e.preventDefault();
-                    form.resetField(groupData.id.toString());
+                    console.log(form);
+                    //form.setValue(group.id.toString(), undefined);
+                    form.resetField(groupData.id.toString(), { defaultValue: null });
                   }}
                 >
                   <CircleX className="text-destructive/90 hover:text-destructive"></CircleX>

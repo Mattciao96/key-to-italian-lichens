@@ -3,11 +3,11 @@ export const filterData = [
     id: 4,
     title: "Substratum",
     items: [
-      { text: "Bark and wood", value: 1, image: "bark.png" },
-      { text: "Rock", value: 3, image: "rock.png" },
+      { text: "Bark and wood", value: "1", image: "bark.png" },
+      { text: "Rock", value: "3", image: "rock.png" },
       {
         text: "Soil, terricolous mosses and plant debris",
-        value: 2,
+        value: "2",
         image: "soil.png",
       },
     ],
@@ -16,10 +16,10 @@ export const filterData = [
     id: 26,
     title: "Thallus",
     items: [
-      { text: "Fruticose", value: 1, image: "fruticose.png" },
+      { text: "Fruticose", value: "1", image: "fruticose.png" },
       {
         text: "Foliose",
-        value: 2,
+        value: "2",
         image: "foliose.png",
       },
     ],
@@ -28,10 +28,10 @@ export const filterData = [
     id: 45,
     title: "Thallus",
     items: [
-      { text: "Crustose or leprose", value: 2, image: "crustose.png" },
+      { text: "Crustose or leprose", value: "2", image: "crustose.png" },
       {
         text: "Squamulose, or (for cyanobacterial lichens only) microfruticose",
-        value: 1,
+        value: "1",
         image: "squamulose.png",
       },
     ],
@@ -39,16 +39,16 @@ export const filterData = [
   {
     id: 53,
     title: "Thallus",
-    depend: { id: 45, item: 2 },
+    depend: { id: 45, item: "2" },
     items: [
       {
         text: "Crustose-placodioid, with marginal lobes",
-        value: 1,
+        value: "1",
         image: "placoid.png",
       },
       {
         text: "Crustose not placodioid",
-        value: 2,
+        value: "2",
         image: "not-placoid.png",
       },
     ],
@@ -58,10 +58,10 @@ export const filterData = [
     title: "Main photobiont",
 
     items: [
-      { text: "Cyanobacterial", value: 1, image: "cyanobacterial.png" },
+      { text: "Cyanobacterial", value: "1", image: "cyanobacterial.png" },
       {
         text: "Not cyanobacterial",
-        value: 2,
+        value: "2",
         image: "not-cyanobacterial.png",
       },
     ],
@@ -69,17 +69,17 @@ export const filterData = [
   {
     id: 7,
     title: "Photobiont",
-    depend: { id: 11, item: 2 },
+    depend: { id: 11, item: "2" },
 
     items: [
       {
         text: "Trentepohlioid (more or less orange)",
-        value: 1,
+        value: "1",
         image: "trente.png",
       },
       {
         text: "Chlorococcoid (bright green), or absent (species not lichenized)",
-        value: 2,
+        value: "2",
         image: "cloro.png",
       },
     ],
