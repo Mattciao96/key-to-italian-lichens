@@ -19,7 +19,44 @@ const FormSchema = z.object({
   "53": z.optional(z.enum(["1", "2"])),
   "11": z.optional(z.enum(["1", "2"])),
   "7": z.optional(z.enum(["1", "2"])),
+  "27": z.optional(z.enum(["1", "2"])),
+  "41": z.optional(z.enum(["1", "2"])),
+  "23": z.optional(z.enum(["1", "2"])),
+  "33": z.optional(z.enum(["1", "2"])),
+  "46": z.optional(z.enum(["1", "2"])),
+  "37": z.optional(z.enum(["1", "2"])),
+  "8": z.optional(z.enum(["1", "2"])),
+  "34": z.optional(z.enum(["1", "2"])),
+  "35": z.optional(z.enum(["1", "2"])),
+  "52": z.optional(z.enum(["1", "2"])),
+  "36": z.optional(z.enum(["1", "2"])),
+  "42": z.optional(z.enum(["1", "2", "3"])),
+  "12": z.optional(z.enum(["1", "3", "4", "5"])),
+ 
 });
+
+const emptyForm = {
+  "4": null,
+  "26": null,
+  "45": null,
+  "53": null,
+  "11": null,
+  "7": null,
+  "27": null,
+  "41": null,
+  "23": null,
+  "33": null,
+  "46": null,
+  "37": null,
+  "8": null,
+  "34": null,
+  "35": null,
+  "52": null,
+  "36": null,
+  "42": null,
+  "12": null,
+  
+};
 
 export default function RadioGroupForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -59,8 +96,12 @@ export default function RadioGroupForm() {
             </Button>
           </form>
           {/* <div className="none md:sticky  sticky top-10 pt-10 h-screen overflow-y-auto border-l border-border"> */}
-         {/*  <div className="none md:fixed w-[290px] md:top-10 md:right-0 pt-10 h-screen overflow-y-auto"> */}
-            <SelectedValues form={form} radioData={radioData} />
+          {/*  <div className="none md:fixed w-[290px] md:top-10 md:right-0 pt-10 h-screen overflow-y-auto"> */}
+          <SelectedValues
+            form={form}
+            radioData={radioData}
+            emptyForm={emptyForm}
+          />
           {/* </div> */}
         </div>
       </Form>

@@ -272,6 +272,28 @@ export const filterData = [
     ],
   },
   {
+    id: "42",
+    title: "Ascospores",
+
+    items: [
+      {
+        text: "less than 8 per ascus",
+        value: "3",
+        image: "spores8less.png",
+      },
+      {
+        text: "8 per ascus",
+        value: "1",
+        image: "spores8.png",
+      },
+      {
+        text: "more than 8 per ascus",
+        value: "2",
+        image: "spores8more.png",
+      }
+    ],
+  },
+  {
     id: "12",
     title: "Thallus",
 
@@ -298,28 +320,7 @@ export const filterData = [
       },
     ],
   },
-  {
-    id: "42",
-    title: "Ascospores",
-
-    items: [
-      {
-        text: "less than 8 per ascus",
-        value: "3",
-        image: "spores8less.png",
-      },
-      {
-        text: "8 per ascus",
-        value: "1",
-        image: "spores8.png",
-      },
-      {
-        text: "more than 8 per ascus",
-        value: "2",
-        image: "spores8more.png",
-      }
-    ],
-  },
+  
   /* {
     title: 'topo',
     description: 'puzzone',

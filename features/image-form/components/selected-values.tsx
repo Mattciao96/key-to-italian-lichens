@@ -7,12 +7,25 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import ResetFieldButton from "@/features/image-form/components/reset-field-button";
+import { Button } from "@/components/ui/button";
 
-export default function SelectedValues({ form, radioData }) {
+export default function SelectedValues({ form, radioData, emptyForm }) {
   const values = form.watch();
 
   return (
-    <aside className="none md:sticky top-10 h-[calc(100vh-2.5rem)] overflow-y-auto">
+    <aside className="none md:sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto">
+      <div className="flex -ml-1 justify-around">
+        <Button className="w-[140px]">Submit</Button>
+        <Button
+          variant="destructive"
+          className="w-[140px]"
+          onClick={() => {
+            form.reset(emptyForm);
+          }}
+        >
+          Reset fields
+        </Button>
+      </div>
       <Accordion
         type="single"
         defaultValue="item-1"
