@@ -10,7 +10,9 @@ import { Form } from "@/components/ui/form";
 import RadioImageGroupForm from "@/features/image-form/components/radio-image-group";
 import SelectedValues from "@/features/image-form/components/selected-values";
 import { filterData } from "@/features/image-form/data/filter-data";
+import { List, MousePointer2 } from "lucide-react";
 const radioData = filterData;
+
 
 const FormSchema = z.object({
   "4": z.optional(z.enum(["1", "2", "3"])),
@@ -32,7 +34,6 @@ const FormSchema = z.object({
   "36": z.optional(z.enum(["1", "2"])),
   "42": z.optional(z.enum(["1", "2", "3"])),
   "12": z.optional(z.enum(["1", "3", "4", "5"])),
- 
 });
 
 const emptyForm = {
@@ -55,7 +56,6 @@ const emptyForm = {
   "36": null,
   "42": null,
   "12": null,
-  
 };
 
 export default function RadioGroupForm() {
@@ -73,7 +73,7 @@ export default function RadioGroupForm() {
         <h1 className="pl-10 text-xl ">Key to Italian Lichens</h1>
       </div>
       <Form {...form}>
-        <div className="relative md:grid md:grid-cols-[1fr_300px]">
+        <div className="px-2 relative md:grid md:grid-cols-[1fr_300px]">
           <form
             /* onSubmit={form.handleSubmit(onSubmit)} */ className="space-y-6"
           >
@@ -112,21 +112,27 @@ export default function RadioGroupForm() {
 
 export function MobileBottomNavbar() {
   return (
-    <div className="justify-evenly md:hidden bottom-0 left-0 right-0 bg-white shadow-top p-2 flex  w-full">
-      <div className="flex justify-center items-center">
-        <Button className="text-xl">
-          <span className="sr-only">Previous</span>
-          {"<"}
-        </Button>
-      </div>
-      <div className="flex justify-center items-center">
-        <Button className="text-xl">Submit</Button>
-      </div>
-      <div className="flex justify-center items-center">
-        <Button className="text-xl">
-          <span className="sr-only">Next</span>
-          {">"}
-        </Button>
+    <div className="block md:hidden fixed bottom-0 left-0 z-50 w-full h-16 bg-background border-t border-border ">
+      <div className="grid h-full max-w-lg grid-cols-2 mx-auto font-medium">
+        <button
+          type="button"
+          className="inline-flex flex-col items-center justify-center px-5 border-gray-200 border-x hover:bg-gray-50 dark:hover:bg-gray-800 group dark:border-gray-600"
+        >
+          <MousePointer2></MousePointer2>
+          <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
+            Submit
+          </span>
+        </button>
+        <button
+          type="button"
+          className="inline-flex flex-col items-center justify-center px-5 border-e border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 group dark:border-gray-600"
+        >
+          <List></List>
+          <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
+            See Filters
+          </span>
+        </button>
+        
       </div>
     </div>
   );

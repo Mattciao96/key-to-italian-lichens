@@ -13,7 +13,7 @@ export default function SelectedValues({ form, radioData, emptyForm }) {
   const values = form.watch();
 
   return (
-    <aside className="none md:sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto">
+    <aside className="hidden md:sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto">
       <div className="flex -ml-1 justify-around">
         <Button className="w-[140px]">Submit</Button>
         <Button
