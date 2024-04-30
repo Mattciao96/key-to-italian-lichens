@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import ResetFieldButton from "./reset-field-button";
 import {
   Form,
   FormControl,
@@ -21,15 +22,16 @@ import {
 } from "@/components/ui/select";
 
 export default function SelectForm({ form, data }) {
-  const [value, setValue] = useState<string | undefined>(undefined);
+
   return (
     <FormField
+
       control={form.control}
       name={data.id}
       render={({ field }) => (
         <FormItem>
           <FormLabel>{data.title}</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
             <FormControl>
               <SelectTrigger className="[&>span]:line-clamp-0 [&>span]:text-left">
                 <SelectValue placeholder={`Select a ${data.title}`} />
@@ -40,12 +42,17 @@ export default function SelectForm({ form, data }) {
                 <SelectItem className="" key={item.value} value={item.value}>
                   {item.text}
                 </SelectItem>
+                
               ))}
+              
             </SelectContent>
           </Select>
           <FormMessage />
+         
         </FormItem>
+        
       )}
+      
     />
   );
 }

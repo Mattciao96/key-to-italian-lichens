@@ -10,10 +10,11 @@ import { Form } from "@/components/ui/form";
 import RadioImageGroupForm from "@/features/image-form/components/radio-image-group";
 import SelectedValues from "@/features/image-form/components/selected-values";
 import SelectedValuesMobile from "@/features/image-form/components/selected-values-mobile";
-import SelectForm from "@/components/forms/select-form";
+import SelectForm from "@/features/image-form/components/select-form";
 
 import { filterData } from "@/features/image-form/data/filter-data";
 import { selectData } from "@/features/image-form/data/select-data";
+import { log } from "console";
 
 const radioData = filterData;
 
@@ -37,6 +38,11 @@ const FormSchema = z.object({
   "36": z.optional(z.enum(["1", "2"])),
   "42": z.optional(z.enum(["1", "2", "3"])),
   "12": z.optional(z.enum(["1", "3", "4", "5"])),
+  substratum: z.optional(z.string()),
+  photobiont: z.optional(z.string()),
+  "growth-form": z.optional(z.string()),
+  "water-relation": z.optional(z.string()),
+  reproduction: z.optional(z.string()),
 });
 
 const emptyForm = {
@@ -59,7 +65,19 @@ const emptyForm = {
   "36": null,
   "42": null,
   "12": null,
+  substratum: undefined,
+  photobiont: undefined,
+  "growth-form": undefined,
+  "water-relation": undefined,
+  reproduction: undefined,
 };
+
+const fullData = [ ...radioData, ...selectData ]
+console.log(radioData);
+console.log(fullData);
+
+
+
 
 export default function RadioGroupForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -67,6 +85,7 @@ export default function RadioGroupForm() {
     defaultValues: {
       "4": "1",
       "45": "2",
+      substratum: undefined,
     },
   });
 
@@ -108,12 +127,12 @@ export default function RadioGroupForm() {
           {/*  <div className="none md:fixed w-[290px] md:top-10 md:right-0 pt-10 h-screen overflow-y-auto"> */}
           <SelectedValues
             form={form}
-            radioData={radioData}
+            radioData={fullData}
             emptyForm={emptyForm}
           />
           <SelectedValuesMobile
             form={form}
-            radioData={radioData}
+            radioData={fullData}
             emptyForm={emptyForm}
           />
         </div>
