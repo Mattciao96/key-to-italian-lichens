@@ -40,7 +40,7 @@ export default function SelectedValues({ form, radioData, emptyForm }) {
           <AccordionContent>
             {radioData.map((group) => {
               const value = values[group.id];
-              if (value !== undefined && value !== null) {
+              if (value !== undefined && value !== null && value !== '') {
                 return (
                   <SelectedValue
                     key={group.id}

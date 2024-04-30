@@ -65,11 +65,11 @@ const emptyForm = {
   "36": null,
   "42": null,
   "12": null,
-  substratum: undefined,
-  photobiont: undefined,
-  "growth-form": undefined,
-  "water-relation": undefined,
-  reproduction: undefined,
+  substratum: null,
+  photobiont: null,
+  "growth-form": null,
+  "water-relation": null,
+  reproduction: null,
 };
 
 const fullData = [ ...radioData, ...selectData ]
@@ -85,7 +85,7 @@ export default function RadioGroupForm() {
     defaultValues: {
       "4": "1",
       "45": "2",
-      substratum: undefined,
+      substratum: 'Sax',
     },
   });
 

@@ -55,7 +55,7 @@ export default function SelectedValuesMobile({ form, radioData, emptyForm }) {
               <div className="min-h-[60vh] max-h-[60vh] overflow-y-scroll">
                 {radioData.map((group) => {
                   const value = values[group.id];
-                  if (value !== undefined && value !== null) {
+                  if (value !== undefined && value !== null && value !== '') {
                     return (
                       <SelectedValue
                         key={group.id}
