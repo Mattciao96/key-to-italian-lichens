@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 
 export default function SelectForm({ form, data }) {
-  const [value, setValue] = useState<string | undefined>(undefined)
+  const [value, setValue] = useState<string | undefined>(undefined);
   return (
     <FormField
       control={form.control}
@@ -31,29 +31,16 @@ export default function SelectForm({ form, data }) {
           <FormLabel>{data.title}</FormLabel>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className="[&>span]:line-clamp-0 [&>span]:text-left">
                 <SelectValue placeholder={`Select a ${data.title}`} />
               </SelectTrigger>
             </FormControl>
-            <SelectContent className="">
-             
+            <SelectContent className="max-w-[98vw]">
               {data.items.map((item) => (
                 <SelectItem className="" key={item.value} value={item.value}>
                   {item.text}
                 </SelectItem>
               ))}
-              <Button
-            className="w-full px-2"
-            variant="secondary"
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation()
-              setValue(undefined)
-              
-            }}
-          >
-            Clear
-          </Button>
             </SelectContent>
           </Select>
           <FormMessage />
