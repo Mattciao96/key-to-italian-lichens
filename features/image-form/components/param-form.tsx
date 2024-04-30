@@ -1,11 +1,14 @@
 "use client";
 import Link from "next/link";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import ComboBox from "@/components/combobox";
+import { useState } from "react";
 
 import RadioImageGroupForm from "@/features/image-form/components/radio-image-group";
 import SelectedValues from "@/features/image-form/components/selected-values";
@@ -60,6 +63,8 @@ const emptyForm = {
 };
 
 export default function RadioGroupForm() {
+  const [selected, setSelected] = useState<Product | undefined>();
+  
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -74,10 +79,12 @@ export default function RadioGroupForm() {
         <h1 className="pl-10 text-xl ">Key to Italian Lichens</h1>
       </div>
       <Form {...form}>
+        
         <div className="px-2 relative md:grid md:grid-cols-[1fr_300px]">
           <form
             /* onSubmit={form.handleSubmit(onSubmit)} */ className="space-y-6"
           >
+          <ComboBox selected={selected} setSelected={setSelected} />
             {radioData.map((groupData) => (
               <RadioImageGroupForm
                 key={groupData.id}

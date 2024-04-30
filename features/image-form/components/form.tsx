@@ -10,10 +10,12 @@ import { Form } from "@/components/ui/form";
 import RadioImageGroupForm from "@/features/image-form/components/radio-image-group";
 import SelectedValues from "@/features/image-form/components/selected-values";
 import SelectedValuesMobile from "@/features/image-form/components/selected-values-mobile";
+import SelectForm from "@/components/forms/select-form";
+
 import { filterData } from "@/features/image-form/data/filter-data";
+import { selectData } from "@/features/image-form/data/select-data";
 
 const radioData = filterData;
-
 
 const FormSchema = z.object({
   "4": z.optional(z.enum(["1", "2", "3"])),
@@ -85,6 +87,12 @@ export default function RadioGroupForm() {
                 groupData={groupData}
               />
             ))}
+
+            {/* try selectdata */}
+            {selectData.map((data) => (
+              <SelectForm key={data.id} form={form} data={data}></SelectForm>
+            ))}
+
             <Button asChild type="submit">
               <Link
                 href={{
@@ -103,14 +111,13 @@ export default function RadioGroupForm() {
             radioData={radioData}
             emptyForm={emptyForm}
           />
-          <SelectedValuesMobile form={form}
+          <SelectedValuesMobile
+            form={form}
             radioData={radioData}
             emptyForm={emptyForm}
           />
         </div>
-        
       </Form>
     </>
   );
 }
-
