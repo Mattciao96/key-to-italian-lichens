@@ -11,10 +11,11 @@ import RadioImageGroupForm from "@/features/image-form/components/radio-image-gr
 import SelectedValues from "@/features/image-form/components/selected-values";
 import SelectedValuesMobile from "@/features/image-form/components/selected-values-mobile";
 import SelectForm from "@/features/image-form/components/select-form";
+import { MultiRangeForm } from "./multi-slider-test";
 
 import { filterData } from "@/features/image-form/data/filter-data";
 import { selectData } from "@/features/image-form/data/select-data";
-import { log } from "console";
+import { rangeData } from "@/features/image-form/data/range-data";
 
 const radioData = filterData;
 
@@ -43,6 +44,10 @@ const FormSchema = z.object({
   "growth-form": z.optional(z.string()),
   "water-relation": z.optional(z.string()),
   reproduction: z.optional(z.string()),
+  PH: z.array(z.number()),
+  LIG: z.array(z.number()),
+  ARID: z.array(z.number()),
+  EUTRO: z.array(z.number()),
 });
 
 const emptyForm = {
@@ -70,14 +75,15 @@ const emptyForm = {
   "growth-form": null,
   "water-relation": null,
   reproduction: null,
+  PH: [1, 5],
+  LIG: [1, 5],
+  ARID: [1, 5],
+  EUTRO: [1, 5],
 };
 
-const fullData = [ ...radioData, ...selectData ]
+const fullData = [...radioData, ...selectData, ...rangeData];
 console.log(radioData);
 console.log(fullData);
-
-
-
 
 export default function RadioGroupForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -85,7 +91,11 @@ export default function RadioGroupForm() {
     defaultValues: {
       "4": "1",
       "45": "2",
-      substratum: 'Sax',
+      substratum: "Sax",
+      PH: [1, 5],
+      LIG: [1, 5],
+      ARID: [1, 5],
+      EUTRO: [1, 5],
     },
   });
 
@@ -111,6 +121,11 @@ export default function RadioGroupForm() {
             {selectData.map((data) => (
               <SelectForm key={data.id} form={form} data={data}></SelectForm>
             ))}
+            <div className="flex justify-around flex-wrap gap-4">
+            {rangeData.map((data) => (
+              <MultiRangeForm key={data.id} form={form} data={data} />
+            ))}
+              </div>
 
             <Button asChild type="submit">
               <Link
@@ -125,14 +140,10 @@ export default function RadioGroupForm() {
           </form>
           {/* <div className="none md:sticky  sticky top-10 pt-10 h-screen overflow-y-auto border-l border-border"> */}
           {/*  <div className="none md:fixed w-[290px] md:top-10 md:right-0 pt-10 h-screen overflow-y-auto"> */}
-          <SelectedValues
-            form={form}
-            radioData={fullData}
-            emptyForm={emptyForm}
-          />
+          <SelectedValues form={form} data={fullData} emptyForm={emptyForm} />
           <SelectedValuesMobile
             form={form}
-            radioData={fullData}
+            data={fullData}
             emptyForm={emptyForm}
           />
         </div>

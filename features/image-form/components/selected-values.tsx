@@ -9,7 +9,7 @@ import {
 import ResetFieldButton from "@/features/image-form/components/reset-field-button";
 import { Button } from "@/components/ui/button";
 
-export default function SelectedValues({ form, radioData, emptyForm }) {
+export default function SelectedValues({ form, data, emptyForm }) {
   const values = form.watch();
 
   
@@ -38,7 +38,7 @@ export default function SelectedValues({ form, radioData, emptyForm }) {
             Selected values
           </AccordionTrigger>
           <AccordionContent>
-            {radioData.map((group) => {
+            {data.map((group) => {
               const value = values[group.id];
               if (value !== undefined && value !== null && value !== '') {
                 return (

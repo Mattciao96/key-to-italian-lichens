@@ -11,7 +11,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-export default function SelectedValuesMobile({ form, radioData, emptyForm }) {
+export default function SelectedValuesMobile({ form, data, emptyForm }) {
   const values = form.watch();
   return (
     <div className="block md:hidden fixed bottom-0 left-0 z-50 w-full h-16 bg-background border-t border-border ">
@@ -53,7 +53,7 @@ export default function SelectedValuesMobile({ form, radioData, emptyForm }) {
                 </DrawerDescription> */}
               </DrawerHeader>
               <div className="min-h-[60vh] max-h-[60vh] overflow-y-scroll">
-                {radioData.map((group) => {
+                {data.map((group) => {
                   const value = values[group.id];
                   if (value !== undefined && value !== null && value !== '') {
                     return (
