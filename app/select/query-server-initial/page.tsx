@@ -90,7 +90,7 @@ export function Search({ selectedResult, onSelectResult }) {
   return (
     <Command
       shouldFilter={false}
-      className="h-auto rounded-lg border border-b-0 shadow-md"
+      className=""
     >
       <CommandInput
         value={searchQuery}
@@ -198,7 +198,7 @@ function SearchResults({ query, selectedResult, onSelectResult }) {
             <span>
               {parts.map((part, index) =>
                 part.toLowerCase() === query.toLowerCase() ? (
-                  <strong key={index}>{part}</strong>
+                  <strong className='text-teal-600' key={index}>{part}</strong>
                 ) : (
                   part
                 )
