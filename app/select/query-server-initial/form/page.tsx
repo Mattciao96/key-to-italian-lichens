@@ -29,6 +29,7 @@ const useSearch = (query) => {
     queryKey: ["fam"],
     enabled,
     refetchOnMount: false,
+    staleTime: Infinity,
     queryFn: async () => {
       console.log("runno");
     

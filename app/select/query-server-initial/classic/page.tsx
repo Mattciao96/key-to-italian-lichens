@@ -148,6 +148,7 @@ function SearchResults({ query, selectedResult, onSelectResult, scrollRef }) {
     queryKey: ["fam"],
     enabled,
     refetchOnMount: false,
+    staleTime: Infinity,
     queryFn: () => searchFn(),
   });
 
