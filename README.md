@@ -31,3 +31,6 @@ const CommandEmpty = React.forwardRef<
 })
 
 ```
+
+for virtualization:
+https://inokawa.github.io/virtua/?path=/story/advanced-with-cmdk--default

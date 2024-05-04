@@ -1,31 +1,48 @@
 "use client";
-
+// libraries
 import * as React from "react";
-import { ChevronsUpDown } from "lucide-react";
-
+import { useQuery } from "@tanstack/react-query";
+import { useDebounce } from "use-debounce";
+import { Virtualizer, VList } from "virtua";
+// utils
 import { cn } from "@/lib/utils";
+// components
 import { Button } from "@/components/ui/button";
-
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Command,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandGroup,
+} from "@/components/ui/command";
+// icons
+import { ChevronsUpDown } from "lucide-react";
+import { Check } from "lucide-react";
 
 const POPOVER_WIDTH = "w-full max-w-[500px]";
 
-export default function ComboboxDemo() {
-  const [selected, setSelected] = React.useState("");
+// useful to get autocomplete on small lists (synced with the server)
+// a shadcn combobox that load data only on mount from server
+// data from the server doesn't change
+// STYLE:
+// a close button is created when a value is selected
+// for now it is not a button because PopoverTrigger is already a button
+// popover-content-width-same-as-its-trigger and POPOVER_WIDTH override radix (small) max-width
+export default function ComboBoxInitialDataServer() {
+  const [selected, setSelected] = React.useState<string>("");
   const [open, setOpen] = React.useState(false);
 
-  const handleSetActive = React.useCallback((product) => {
-    setSelected(product);
-
-    // OPTIONAL: close the combobox upon selection
+  const handleSetSelectedValue = React.useCallback((selectedValue: string) => {
+    setSelected(selectedValue);
     setOpen(false);
   }, []);
 
-  const displayName = selected ? selected.name : "Select a lichen";
+  const displayName = selected ? selected : "Select a lichen";
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -35,7 +52,7 @@ export default function ComboboxDemo() {
           role="combobox"
           className={cn("justify-between", POPOVER_WIDTH)}
         >
-          {displayName}
+          {selected}
 
           {selected !== "" ? (
             <div
@@ -58,40 +75,30 @@ export default function ComboboxDemo() {
           POPOVER_WIDTH
         )}
       >
-        <Search selectedResult={selected} onSelectResult={handleSetActive} />
+        <SearchComboBoxInitialDataServer
+          selectedResult={selected}
+          onSelectResult={handleSetSelectedValue}
+        />
       </PopoverContent>
     </Popover>
   );
 }
 
-import { useDebounce } from "use-debounce";
-import { useQuery } from "@tanstack/react-query";
-
-import {
-  Command,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandGroup,
-} from "@/components/ui/command";
-
-import { Check } from "lucide-react";
-
-export function Search({ selectedResult, onSelectResult }) {
+export function SearchComboBoxInitialDataServer({
+  selectedResult,
+  onSelectResult,
+}: {
+  selectedResult: string;
+  onSelectResult: (result: string) => void;
+}) {
   const [searchQuery, setSearchQuery] = React.useState("");
 
-  const handleSelectResult = (product) => {
-    onSelectResult(product);
-
-    // OPTIONAL: reset the search query upon selection
-    // setSearchQuery('');
+  const handleSelectResult = (searchInput: string) => {
+    onSelectResult(searchInput);
   };
 
   return (
-    <Command
-      shouldFilter={false}
-      className=""
-    >
+    <Command shouldFilter={false} className="">
       <CommandInput
         value={searchQuery}
         onValueChange={setSearchQuery}
@@ -110,10 +117,10 @@ export function Search({ selectedResult, onSelectResult }) {
   );
 }
 
-const searchFn = async (query) => {
-  const response = await fetch(
-    `https://italic.units.it/api/v1/namelist/${query}`
-  );
+const searchFn = async () => {
+  console.log("runno");
+
+  const response = await fetch(`https://italic.units.it/api/v1/families`);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
@@ -121,47 +128,51 @@ const searchFn = async (query) => {
 };
 
 function SearchResults({ query, selectedResult, onSelectResult }) {
-  const [debouncedSearchQuery] = useDebounce(query, 500);
+  const [debouncedSearchQuery] = useDebounce(query, 1000);
+  const ref = React.useRef<HTMLDivElement>(null);
 
-  const enabled = debouncedSearchQuery.length >= 5;
+  const enabled = debouncedSearchQuery.length >= 0;
 
   const {
     data,
     isLoading: isLoadingOrig,
     isError,
   } = useQuery({
-    queryKey: ["search", debouncedSearchQuery],
-    /* queryFn: () => searchProductsByName(debouncedSearchQuery), */
-    /* queryFn: () =>
-      fetch(`https://italic.units.it/api/v1/namelist/${query}`).then((res) =>
-        res.json()
-      ), */
+    queryKey: ["fam"],
     enabled,
-    queryFn: () => searchFn(debouncedSearchQuery),
+    refetchOnMount: false,
+    queryFn: () => searchFn(),
   });
 
   // To get around this https://github.com/TanStack/query/issues/3584
   const isLoading = enabled && isLoadingOrig;
 
   const sortedNames = React.useMemo(() => {
-    if (!data || !data.names) {
+    if (!data) {
       return [];
     }
-    return data.names.sort((a, b) => {
-      const aStartsWithQuery = a.name
-        .toLowerCase()
-        .startsWith(debouncedSearchQuery.toLowerCase());
-      const bStartsWithQuery = b.name
-        .toLowerCase()
-        .startsWith(debouncedSearchQuery.toLowerCase());
+    if (debouncedSearchQuery === "") return data;
+    return data
+      .filter((value) => {
+        if (value.toLowerCase().includes(debouncedSearchQuery.toLowerCase()))
+          return 1;
+        return 0;
+      })
+      .sort((a, b) => {
+        const aStartsWithQuery = a
+          .toLowerCase()
+          .startsWith(debouncedSearchQuery.toLowerCase());
+        const bStartsWithQuery = b
+          .toLowerCase()
+          .startsWith(debouncedSearchQuery.toLowerCase());
 
-      if (aStartsWithQuery && bStartsWithQuery) {
-        return data.names.indexOf(a) - data.names.indexOf(b);
-      }
-      if (aStartsWithQuery) return -1;
-      if (bStartsWithQuery) return 1;
-      return 0;
-    });
+        if (aStartsWithQuery && bStartsWithQuery) {
+          return data.indexOf(a) - data.indexOf(b);
+        }
+        if (aStartsWithQuery) return -1;
+        if (bStartsWithQuery) return 1;
+        return 0;
+      });
   }, [data, debouncedSearchQuery]);
 
   if (!enabled) return null;
@@ -173,32 +184,37 @@ function SearchResults({ query, selectedResult, onSelectResult }) {
     !isError &&
     !isLoading &&
     query === debouncedSearchQuery &&
-    !data?.names.length
+    !data?.length
   ) {
     return <div className="p-4 text-sm">No data found</div>;
   }
 
+  const windowHeight = sortedNames.length >= 10 ? '500px' : `${sortedNames.length * 32}px`
+
   return (
-    <>
-      {sortedNames.map(({ id, name }) => {
-        const parts = name.split(new RegExp(`(${query})`, "i"));
+    <div style={{height: windowHeight}}>
+    <VList>
+      {sortedNames.map((name) => {
+        const parts = debouncedSearchQuery === '' ? [name] : name.split(new RegExp(`(${debouncedSearchQuery})`, "i"));
 
         return (
           <CommandItem
-            key={id}
-            onSelect={() => onSelectResult({ id, name })}
+            key={name}
+            onSelect={() => onSelectResult(name)}
             value={name}
           >
             <Check
               className={cn(
-                "mr-2 h-4 w-4",
-                selectedResult?.id === id ? "opacity-100" : "opacity-0"
+                "mr-1 h-4 w-4 min-w-4",
+                selectedResult === name ? "opacity-100" : "opacity-0"
               )}
             />
             <span>
               {parts.map((part, index) =>
                 part.toLowerCase() === query.toLowerCase() ? (
-                  <strong className='text-teal-600' key={index}>{part}</strong>
+                  <span className="text-teal-600" key={index}>
+                    {part}
+                  </span>
                 ) : (
                   part
                 )
@@ -207,6 +223,7 @@ function SearchResults({ query, selectedResult, onSelectResult }) {
           </CommandItem>
         );
       })}
-    </>
+      </VList>
+      </div>
   );
 }

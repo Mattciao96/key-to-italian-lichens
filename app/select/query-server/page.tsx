@@ -191,14 +191,14 @@ function SearchResults({ query, selectedResult, onSelectResult }) {
           >
             <Check
               className={cn(
-                "mr-2 h-4 w-4",
+                "mr-1 h-4 w-4 min-w-4",
                 selectedResult?.id === id ? "opacity-100" : "opacity-0"
               )}
             />
             <span>
               {parts.map((part, index) =>
                 part.toLowerCase() === query.toLowerCase() ? (
-                  <strong className='text-teal-600' key={index}>{part}</strong>
+                  <span className='text-teal-600' key={index}>{part}</span>
                 ) : (
                   part
                 )
