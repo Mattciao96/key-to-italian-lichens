@@ -92,6 +92,8 @@ export function SearchComboBoxInitialDataServer({
   onSelectResult: (result: string) => void;
 }) {
   const [searchQuery, setSearchQuery] = React.useState("");
+  const ref = React.useRef<HTMLDivElement>(null);
+
 
   const handleSelectResult = (searchInput: string) => {
     onSelectResult(searchInput);
@@ -105,12 +107,15 @@ export function SearchComboBoxInitialDataServer({
         placeholder="Search a lichen"
       />
       <CommandGroup>
-        <CommandList>
+        <CommandList ref={ref}>
+         
           <SearchResults
             query={searchQuery}
             selectedResult={selectedResult}
             onSelectResult={handleSelectResult}
-          />
+            scrollRef={ref}
+            />
+           
         </CommandList>
       </CommandGroup>
     </Command>
@@ -127,9 +132,9 @@ const searchFn = async () => {
   return response.json();
 };
 
-function SearchResults({ query, selectedResult, onSelectResult }) {
+function SearchResults({ query, selectedResult, onSelectResult, scrollRef }) {
   const [debouncedSearchQuery] = useDebounce(query, 1000);
-  const ref = React.useRef<HTMLDivElement>(null);
+  
 
   const enabled = debouncedSearchQuery.length >= 0;
 
@@ -192,8 +197,8 @@ function SearchResults({ query, selectedResult, onSelectResult }) {
   const windowHeight = sortedNames.length >= 10 ? '500px' : `${sortedNames.length * 32}px`
 
   return (
-    <div style={{height: windowHeight}}>
-    <VList>
+    <>
+    <Virtualizer scrollRef={scrollRef}>
       {sortedNames.map((name) => {
         const parts = debouncedSearchQuery === '' ? [name] : name.split(new RegExp(`(${debouncedSearchQuery})`, "i"));
 
@@ -223,7 +228,8 @@ function SearchResults({ query, selectedResult, onSelectResult }) {
           </CommandItem>
         );
       })}
-      </VList>
-      </div>
+        </Virtualizer>
+      
+      </>
   );
 }
