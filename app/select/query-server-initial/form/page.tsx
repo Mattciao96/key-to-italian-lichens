@@ -42,19 +42,17 @@ const useSearch = (query) => {
   const isLoading = enabled && isLoadingOrig;
   return { data, enabled, isLoading, isError, debouncedSearchQuery };
 };
-
-const SearchResults = ({ query, selectedResult, onSelectResult, scrollRef, }) => {
-  const { data, enabled, isLoading, isError, debouncedSearchQuery } = useSearch(query, searchFn);
-  const sortedNames = React.useMemo(() => {
+function useSortedNames(data, query) {
+  return React.useMemo(() => {
     if (!data) {
       return [];
     }
-    if (debouncedSearchQuery === "") return data;
+    if (query === "") return data;
     return data
-      .filter((value) => value.toLowerCase().includes(debouncedSearchQuery.toLowerCase()))
+      .filter((value) => value.toLowerCase().includes(query.toLowerCase()))
       .sort((a, b) => {
-        const aStartsWithQuery = a.toLowerCase().startsWith(debouncedSearchQuery.toLowerCase());
-        const bStartsWithQuery = b.toLowerCase().startsWith(debouncedSearchQuery.toLowerCase());
+        const aStartsWithQuery = a.toLowerCase().startsWith(query.toLowerCase());
+        const bStartsWithQuery = b.toLowerCase().startsWith(query.toLowerCase());
         if (aStartsWithQuery && bStartsWithQuery) {
           return data.indexOf(a) - data.indexOf(b);
         }
@@ -62,7 +60,12 @@ const SearchResults = ({ query, selectedResult, onSelectResult, scrollRef, }) =>
         if (bStartsWithQuery) return 1;
         return 0;
       });
-  }, [data, debouncedSearchQuery]);
+  }, [data, query]);
+}
+
+const SearchResults = ({ query, selectedResult, onSelectResult, scrollRef, }) => {
+  const { data, enabled, isLoading, isError, debouncedSearchQuery } = useSearch(query, searchFn);
+  const sortedNames = useSortedNames(data, debouncedSearchQuery);
 
   if (!enabled) return null
   if (isError) return <div className="p-4 text-sm">No products found</div>;
