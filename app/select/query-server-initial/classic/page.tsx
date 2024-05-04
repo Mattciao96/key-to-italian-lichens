@@ -21,8 +21,7 @@ import {
   CommandGroup,
 } from "@/components/ui/command";
 // icons
-import { ChevronsUpDown } from "lucide-react";
-import { Check } from "lucide-react";
+import { ChevronsUpDown, X, Check } from "lucide-react";
 
 const POPOVER_WIDTH = "w-full max-w-[500px]";
 
@@ -45,42 +44,49 @@ export default function ComboBoxInitialDataServer() {
   const displayName = selected ? selected : "Select a lichen";
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild className="w-[600px]">
-        <Button
-          variant="outline"
-          role="combobox"
-          className={cn("justify-between", POPOVER_WIDTH)}
-        >
-          {selected}
+    <div className="h-[100dvh] flex justify-center items-center">
+      <Popover open={open} onOpenChange={setOpen}>
+        <div className="relative w-[500px]">
+          <PopoverTrigger asChild className="w-full">
+            <Button
+              variant="outline"
+              role="combobox"
+              className={cn("justify-between", POPOVER_WIDTH)}
+            >
+              {displayName}
 
-          {selected !== "" ? (
-            <div
-              className="bg-red-600 h-4 w-4 shrink-0 opacity-50 hover:bg-red-900"
+              {selected === "" && (
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              )}
+            </Button>
+          </PopoverTrigger>
+          {selected !== "" && (
+            <Button
+              className="absolute right-0 rounded-full bg-transparent hover:bg-transparent"
               onClick={(e) => {
                 e.stopPropagation();
                 setSelected("");
               }}
-            ></div>
-          ) : (
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            >
+              <X className="text-primary h-4 w-4 shrink-0 opacity-50 hover:opacity-100 hover:text-destructive"></X>
+            </Button>
           )}
-        </Button>
-      </PopoverTrigger>
+        </div>
 
-      <PopoverContent
-        side="bottom"
-        className={cn(
-          "p-0 popover-content-width-same-as-its-trigger",
-          POPOVER_WIDTH
-        )}
-      >
-        <SearchComboBoxInitialDataServer
-          selectedResult={selected}
-          onSelectResult={handleSetSelectedValue}
-        />
-      </PopoverContent>
-    </Popover>
+        <PopoverContent
+          side="bottom"
+          className={cn(
+            "p-0 popover-content-width-same-as-its-trigger",
+            POPOVER_WIDTH
+          )}
+        >
+          <SearchComboBoxInitialDataServer
+            selectedResult={selected}
+            onSelectResult={handleSetSelectedValue}
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 }
 
@@ -93,7 +99,6 @@ export function SearchComboBoxInitialDataServer({
 }) {
   const [searchQuery, setSearchQuery] = React.useState("");
   const ref = React.useRef<HTMLDivElement>(null);
-
 
   const handleSelectResult = (searchInput: string) => {
     onSelectResult(searchInput);
@@ -108,14 +113,12 @@ export function SearchComboBoxInitialDataServer({
       />
       <CommandGroup>
         <CommandList ref={ref}>
-         
           <SearchResults
             query={searchQuery}
             selectedResult={selectedResult}
             onSelectResult={handleSelectResult}
             scrollRef={ref}
-            />
-           
+          />
         </CommandList>
       </CommandGroup>
     </Command>
@@ -125,7 +128,7 @@ export function SearchComboBoxInitialDataServer({
 const searchFn = async () => {
   console.log("runno");
 
-  const response = await fetch(`https://italic.units.it/api/v1/families`);
+  const response = await fetch(`https://italic.units.it/api/v1/genera`);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
@@ -134,9 +137,8 @@ const searchFn = async () => {
 
 function SearchResults({ query, selectedResult, onSelectResult, scrollRef }) {
   const [debouncedSearchQuery] = useDebounce(query, 1000);
-  
 
-  const enabled = debouncedSearchQuery.length >= 0;
+  const enabled = debouncedSearchQuery.length >= 1;
 
   const {
     data,
@@ -194,42 +196,42 @@ function SearchResults({ query, selectedResult, onSelectResult, scrollRef }) {
     return <div className="p-4 text-sm">No data found</div>;
   }
 
-  const windowHeight = sortedNames.length >= 10 ? '500px' : `${sortedNames.length * 32}px`
-
   return (
     <>
-    <Virtualizer scrollRef={scrollRef}>
-      {sortedNames.map((name) => {
-        const parts = debouncedSearchQuery === '' ? [name] : name.split(new RegExp(`(${debouncedSearchQuery})`, "i"));
+      <Virtualizer scrollRef={scrollRef}>
+        {sortedNames.map((name) => {
+          const parts =
+            debouncedSearchQuery === ""
+              ? [name]
+              : name.split(new RegExp(`(${debouncedSearchQuery})`, "i"));
 
-        return (
-          <CommandItem
-            key={name}
-            onSelect={() => onSelectResult(name)}
-            value={name}
-          >
-            <Check
-              className={cn(
-                "mr-1 h-4 w-4 min-w-4",
-                selectedResult === name ? "opacity-100" : "opacity-0"
-              )}
-            />
-            <span>
-              {parts.map((part, index) =>
-                part.toLowerCase() === query.toLowerCase() ? (
-                  <span className="text-teal-600" key={index}>
-                    {part}
-                  </span>
-                ) : (
-                  part
-                )
-              )}
-            </span>
-          </CommandItem>
-        );
-      })}
-        </Virtualizer>
-      
-      </>
+          return (
+            <CommandItem
+              key={name}
+              onSelect={() => onSelectResult(name)}
+              value={name}
+            >
+              <Check
+                className={cn(
+                  "mr-1 h-4 w-4 min-w-4",
+                  selectedResult === name ? "opacity-100" : "opacity-0"
+                )}
+              />
+              <span>
+                {parts.map((part, index) =>
+                  part.toLowerCase() === query.toLowerCase() ? (
+                    <span className="text-teal-600" key={index}>
+                      {part}
+                    </span>
+                  ) : (
+                    part
+                  )
+                )}
+              </span>
+            </CommandItem>
+          );
+        })}
+      </Virtualizer>
+    </>
   );
 }
