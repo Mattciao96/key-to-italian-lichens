@@ -1,6 +1,6 @@
 import { List, MousePointer2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SelectedValue } from "@/features/image-form/components/selected-values";
+import { SelectedValue, SelectedInputValue } from "@/features/image-form/components/selected-values";
 import {
   Drawer,
   DrawerClose,
@@ -11,7 +11,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-export default function SelectedValuesMobile({ form, data, emptyForm }) {
+export default function SelectedValuesMobile({ form, data, inputData, emptyForm }) {
   const values = form.watch();
   return (
     <div className="block md:hidden fixed bottom-0 left-0 z-50 w-full h-16 bg-background border-t border-border ">
@@ -53,6 +53,20 @@ export default function SelectedValuesMobile({ form, data, emptyForm }) {
                 </DrawerDescription> */}
               </DrawerHeader>
               <div className="min-h-[60vh] max-h-[60vh] overflow-y-scroll">
+              {inputData.map((inputLabel) => {
+              const value = values[inputLabel];
+              if (value !== undefined && value !== null && value !== '') {
+                return (
+                  <SelectedInputValue
+                    key={value}
+                    form={form}
+                    inputFormLabel={inputLabel}
+                    value={value}
+                  />
+                );
+              }
+              return null;
+            })}
                 {data.map((group) => {
                   const value = values[group.id];
                   if (value !== undefined && value !== null && value !== '') {

@@ -17,6 +17,14 @@ import { filterData } from "@/features/image-form/data/filter-data";
 import { selectData } from "@/features/image-form/data/select-data";
 import { rangeData } from "@/features/image-form/data/range-data";
 
+// for combobox
+import { ComboBox } from "@/features/image-form/components/combobox-server-initial-form";
+import {
+  useSearch,
+  useFamilySearch,
+  useDefaultSortedNames,
+} from "@/features/image-form/utils/combobox-utils";
+
 const radioData = filterData;
 
 const FormSchema = z.object({
@@ -44,6 +52,8 @@ const FormSchema = z.object({
   "growth-form": z.optional(z.string()),
   "water-relation": z.optional(z.string()),
   reproduction: z.optional(z.string()),
+  genus: z.optional(z.string()),
+  family: z.optional(z.string()),
   PH: z.array(z.number()),
   LIG: z.array(z.number()),
   ARID: z.array(z.number()),
@@ -75,12 +85,14 @@ const emptyForm = {
   "growth-form": null,
   "water-relation": null,
   reproduction: null,
+  genus: '',
+  family: '',
   PH: [1, 5],
   LIG: [1, 5],
   ARID: [1, 5],
   EUTRO: [1, 5],
 };
-
+const inputData = ['genus', 'family']
 const fullData = [...radioData, ...selectData, ...rangeData];
 console.log(radioData);
 console.log(fullData);
@@ -109,6 +121,37 @@ export default function RadioGroupForm() {
           <form
             /* onSubmit={form.handleSubmit(onSubmit)} */ className="space-y-6"
           >
+
+<div className="flex justify-around flex-wrap gap-4">
+              <ComboBox
+                text={{
+                  labelText: "genus",
+                  triggerText: "Select a Genus",
+                  searchText: "Insert at least one character",
+                  loadingText: "Searching...",
+                  errorText: "Error loading data",
+                  noResultsText: "No genera found",
+                }}
+                form={form}
+                useSearch={useSearch}
+                useSortedNames={useDefaultSortedNames}
+              />
+              <ComboBox
+                text={{
+                  labelText: "family",
+                  triggerText: "Select a family",
+                  searchText: "",
+                  loadingText: "Searching...",
+                  errorText: "Error loading data",
+                  noResultsText: "No families found",
+                }}
+                form={form}
+                useSearch={useFamilySearch}
+                useSortedNames={useDefaultSortedNames}
+              />
+            </div>
+
+
             {radioData.map((groupData) => (
               <RadioImageGroupForm
                 key={groupData.id}
@@ -122,10 +165,11 @@ export default function RadioGroupForm() {
               <SelectForm key={data.id} form={form} data={data}></SelectForm>
             ))}
             <div className="flex justify-around flex-wrap gap-4">
-            {rangeData.map((data) => (
-              <MultiRangeForm key={data.id} form={form} data={data} />
-            ))}
-              </div>
+              {rangeData.map((data) => (
+                <MultiRangeForm key={data.id} form={form} data={data} />
+              ))}
+            </div>
+            
 
             <Button asChild type="submit">
               <Link
@@ -140,10 +184,11 @@ export default function RadioGroupForm() {
           </form>
           {/* <div className="none md:sticky  sticky top-10 pt-10 h-screen overflow-y-auto border-l border-border"> */}
           {/*  <div className="none md:fixed w-[290px] md:top-10 md:right-0 pt-10 h-screen overflow-y-auto"> */}
-          <SelectedValues form={form} data={fullData} emptyForm={emptyForm} />
+          <SelectedValues form={form} data={fullData} inputData={inputData} emptyForm={emptyForm} />
           <SelectedValuesMobile
             form={form}
             data={fullData}
+            inputData = {inputData}
             emptyForm={emptyForm}
           />
         </div>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import ResetFieldButton from "./reset-field-button";
+import { ResetFieldButton } from "./reset-field-button";
 import {
   Form,
   FormControl,

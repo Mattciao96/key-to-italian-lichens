@@ -52,7 +52,7 @@ export type UseSearch = (query: string) => {
   debouncedSearchQuery: string;
 };
 export const useSearch: UseSearch = (query) => {
-  const [debouncedSearchQuery] = useDebounce(query, 1000);
+  const [debouncedSearchQuery] = useDebounce(query, 100);
   const enabled = debouncedSearchQuery.length >= 1;
   const {
     data,
@@ -80,7 +80,7 @@ export const useSearch: UseSearch = (query) => {
 
 
 export const useFamilySearch: UseSearch = (query) => {
-  const [debouncedSearchQuery] = useDebounce(query, 200);
+  const [debouncedSearchQuery] = useDebounce(query, 100);
   const enabled = debouncedSearchQuery.length >= 0;
   const {
     data,

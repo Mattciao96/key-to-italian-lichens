@@ -6,10 +6,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import ResetFieldButton from "@/features/image-form/components/reset-field-button";
+import { ResetFieldButton, ResetFieldButtonByFun } from "@/features/image-form/components/reset-field-button";
 import { Button } from "@/components/ui/button";
+import { UseFormReturn } from "react-hook-form";
 
-export default function SelectedValues({ form, data, emptyForm }) {
+export default function SelectedValues({ form, data, inputData, emptyForm }) {
   const values = form.watch();
 
   
@@ -38,6 +39,20 @@ export default function SelectedValues({ form, data, emptyForm }) {
             Selected values
           </AccordionTrigger>
           <AccordionContent>
+          {inputData.map((inputLabel) => {
+              const value = values[inputLabel];
+              if (value !== undefined && value !== null && value !== '') {
+                return (
+                  <SelectedInputValue
+                    key={value}
+                    form={form}
+                    inputFormLabel={inputLabel}
+                    value={value}
+                  />
+                );
+              }
+              return null;
+            })}
             {data.map((group) => {
               const value = values[group.id];
               if (value !== undefined && value !== null && value !== '') {
@@ -74,6 +89,46 @@ export function SelectedValue({ form, group, value }) {
         <ResetFieldButton form={form} groupData={group}>
           <X className="size-4 text-primary"></X>
         </ResetFieldButton>
+      </div>
+      <hr className="" />
+    </>
+  );
+}
+
+
+
+interface SelectedInputValueProps {
+  form: UseFormReturn;
+  inputFormLabel: string;
+  value: string;
+}
+/**
+ * `SelectedInputValue` is a React component that renders the selected value of an text INPUT field in a form.
+ * It displays the label of the field the input belongs to, followed by the inserted value.
+ * It also includes a `Reset Button` that allows the user to reset the selected value.
+ *
+ * @param {Object} props - The properties that define the component's behavior and display.
+ * @param {Object} props.form - The form instance provided by `react-hook-form`.
+ * @param {string} props.inputFormLabel - The label of the input field.
+ *
+ * @returns {ReactElement} The `SelectedInputValue` component.
+ */
+export const SelectedInputValue: React.FC<SelectedInputValueProps> = ({ form, inputFormLabel, value}) =>{
+
+
+  return (
+    <>
+      <div key={inputFormLabel} className="w-full py-1 flex justify-end items-center">
+        <div className="w-full pl-1 text-sm">
+          {inputFormLabel}: {value}
+        </div>
+        <ResetFieldButtonByFun onClick={(e) => {
+
+        e.preventDefault();
+        form.resetField(inputFormLabel, { defaultValue: '' });
+      }}>
+          <X className="size-4 text-primary"></X>
+        </ResetFieldButtonByFun>
       </div>
       <hr className="" />
     </>

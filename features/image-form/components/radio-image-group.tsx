@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import RadioImageItem from "@/features/image-form/components/radio-image-item";
-import ResetFieldButton from "@/features/image-form/components/reset-field-button";
+import { ResetFieldButton } from "@/features/image-form/components/reset-field-button";
 import {
   FormControl,
   FormField,

@@ -10,18 +10,29 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
   Command,
   CommandInput,
   CommandItem,
   CommandList,
   CommandGroup,
-  CommandEmpty
+  CommandEmpty,
 } from "@/components/ui/command";
 import { ChevronsUpDown, X, Check } from "lucide-react";
 import {
   UseSearch,
   UseSortedNames,
 } from "@/features/image-form/utils/combobox-utils";
+import { ResetFieldButtonByFun } from "@/features/image-form/components/reset-field-button";
+import { UseFormReturn } from "react-hook-form";
 
 const POPOVER_WIDTH = "w-full max-w-[500px]";
 
@@ -164,68 +175,84 @@ export const SearchComboBox: React.FC<SearchComboBoxProps> = ({
   );
 };
 
-interface ComboBoxProps {
+interface ComboBoxFormProps {
   text: ComboboxText;
+  form: UseFormReturn;
   useSearch: UseSearch;
   useSortedNames: UseSortedNames;
 }
-export const ComboBox: React.FC<ComboBoxProps> = ({
+export const ComboBox: React.FC<ComboBoxFormProps> = ({
   text,
+  form,
   useSearch,
   useSortedNames,
 }) => {
-  const [selected, setSelected] = React.useState<string>("");
+  //const [selected, setSelected] = React.useState<string>("");
   const [open, setOpen] = React.useState(false);
 
   const handleSetSelectedValue = React.useCallback((selectedValue: string) => {
-    setSelected(selectedValue);
+    //setSelected(selectedValue);
+    form.setValue(text.labelText, selectedValue);
     setOpen(false);
   }, []);
 
-  const displayName = selected ? selected : text.triggerText;
+  //const displayName = selected ? selected : text.triggerText;
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <div className="relative w-[500px]">
-        <PopoverTrigger asChild className="w-full">
-          <Button
-            variant="outline"
-            role="combobox"
-            className={cn("justify-between", POPOVER_WIDTH)}
-          >
-            {displayName}
-            {selected === "" && (
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            )}
-          </Button>
-        </PopoverTrigger>
-        {selected !== "" && (
-          <Button
-            className="absolute right-0 rounded-full bg-transparent hover:bg-transparent"
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelected("");
-            }}
-          >
-            <X className="text-primary h-4 w-4 shrink-0 opacity-50 hover:opacity-100 hover:text-destructive"></X>
-          </Button>
-        )}
-      </div>
-      <PopoverContent
-        side="bottom"
-        className={cn(
-          "p-0 popover-content-width-same-as-its-trigger",
-          POPOVER_WIDTH
-        )}
-      >
-        <SearchComboBox
-          text={text}
-          selectedResult={selected}
-          onSelectResult={handleSetSelectedValue}
-          useSearch={useSearch}
-          useSortedNames={useSortedNames}
-        />
-      </PopoverContent>
-    </Popover>
+    <FormField
+      control={form.control}
+      name={text.labelText}
+      render={({ field }) => (
+        <FormItem className={cn("flex flex-col", POPOVER_WIDTH)}>
+          <FormLabel>{text.labelText}</FormLabel>
+          <Popover open={open} onOpenChange={setOpen}>
+            <div className="relative">
+              <PopoverTrigger asChild className="w-full">
+                <FormControl>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    className={cn("justify-between", POPOVER_WIDTH)}
+                  >
+                    {field.value ? field.value : text.triggerText}
+                    {(field.value === "" || field.value === undefined)  && (
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    )}
+                  </Button>
+                </FormControl>
+              </PopoverTrigger>
+              {(field.value !== "" && field.value !== undefined) && (
+                <Button
+                  className="absolute right-0 rounded-full bg-transparent hover:bg-transparent"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    form.resetField(text.labelText, { defaultValue: "" });
+                  }}
+                >
+                  <X className="text-primary h-4 w-4 shrink-0 opacity-50 hover:opacity-100 hover:text-destructive"></X>
+                </Button>
+              )}
+            </div>
+            <PopoverContent
+              side="bottom"
+              className={cn(
+                "p-0 popover-content-width-same-as-its-trigger",
+                POPOVER_WIDTH
+              )}
+            >
+              <SearchComboBox
+                text={text}
+                selectedResult={field.value}
+                onSelectResult={handleSetSelectedValue}
+                useSearch={useSearch}
+                useSortedNames={useSortedNames}
+              />
+            </PopoverContent>
+          </Popover>
+        </FormItem>
+      )}
+    />
   );
 };
