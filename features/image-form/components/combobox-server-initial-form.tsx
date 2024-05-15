@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-
+import { useMediaQuery } from "react-responsive";
 import { Virtualizer } from "virtua";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -276,6 +276,8 @@ export const ComboBox: React.FC<ComboBoxFormProps> = ({
 }) => {
   //const [selected, setSelected] = React.useState<string>("");
   const [open, setOpen] = React.useState(false);
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isDesktop = useMediaQuery({ query: "(min-width: 769px)" });
 
   const handleSetSelectedValue = React.useCallback((selectedValue: string) => {
     //setSelected(selectedValue);
@@ -292,43 +294,93 @@ export const ComboBox: React.FC<ComboBoxFormProps> = ({
       render={({ field }) => (
         <FormItem className={cn("flex flex-col", POPOVER_WIDTH)}>
           <FormLabel>{text.labelText}</FormLabel>
-
-          <Dialog open={open} onOpenChange={setOpen}>
-            <div className="relative">
-              <DialogTrigger asChild className="w-full">
-                <FormControl>
+          {isDesktop && (
+            <Popover open={open} onOpenChange={setOpen}>
+              <div className="relative">
+                <PopoverTrigger asChild className="w-full">
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn("justify-between", POPOVER_WIDTH)}
+                    >
+                      {field.value ? field.value : text.triggerText}
+                      {(field.value === "" || field.value === undefined) && (
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      )}
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                {field.value !== "" && field.value !== undefined && (
                   <Button
-                    variant="outline"
-                    role="combobox"
-                    className={cn("justify-between", POPOVER_WIDTH)}
-                  >
-                    {field.value ? field.value : text.triggerText}
-                    {(field.value === "" || field.value === undefined) && (
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    )}
-                  </Button>
-                </FormControl>
-              </DialogTrigger>
-              {field.value !== "" && field.value !== undefined && (
-                <Button
-                  className="absolute right-0 rounded-full bg-transparent hover:bg-transparent"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                    className="absolute right-0 rounded-full bg-transparent hover:bg-transparent"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
 
-                    form.resetField(text.labelText, { defaultValue: "" });
-                  }}
-                >
-                  <X className="text-primary h-4 w-4 shrink-0 opacity-50 hover:opacity-100 hover:text-destructive"></X>
-                </Button>
-              )}
-            </div>
-            
+                      form.resetField(text.labelText, { defaultValue: "" });
+                    }}
+                  >
+                    <X className="text-primary h-4 w-4 shrink-0 opacity-50 hover:opacity-100 hover:text-destructive"></X>
+                  </Button>
+                )}
+              </div>
+              <PopoverContent
+                side="bottom"
+                className={cn(
+                  "p-0 popover-content-width-same-as-its-trigger",
+                  POPOVER_WIDTH
+                )}
+              >
+                <SearchComboBox
+                  text={text}
+                  selectedResult={field.value}
+                  onSelectResult={handleSetSelectedValue}
+                  useSearch={useSearch}
+                  useSortedNames={useSortedNames}
+                />
+              </PopoverContent>
+            </Popover>
+          )}
+          {isMobile && (
+            <Dialog open={open} onOpenChange={setOpen}>
+              <div className="relative">
+                <DialogTrigger asChild className="w-full">
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn("justify-between", POPOVER_WIDTH)}
+                    >
+                      {field.value ? field.value : text.triggerText}
+                      {(field.value === "" || field.value === undefined) && (
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      )}
+                    </Button>
+                  </FormControl>
+                </DialogTrigger>
+                {field.value !== "" && field.value !== undefined && (
+                  <Button
+                    className="absolute right-0 rounded-full bg-transparent hover:bg-transparent"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      form.resetField(text.labelText, { defaultValue: "" });
+                    }}
+                  >
+                    <X className="text-primary h-4 w-4 shrink-0 opacity-50 hover:opacity-100 hover:text-destructive"></X>
+                  </Button>
+                )}
+              </div>
+
               <DialogContent
                 side="bottom"
-                className={cn("mt-1 rounded-md top-0 translate-y-0 p-0 w-[98vw]")}
-            >
-              <Label className="pt-4 pl-4 ">{text.labelText}</Label>
+                className={cn(
+                  "mt-1 rounded-md top-0 translate-y-0 p-0 w-[98vw]"
+                )}
+              >
+                <Label className="pt-4 pl-4 ">{text.labelText}</Label>
                 <SearchComboBox
                   text={text}
                   selectedResult={field.value}
@@ -337,8 +389,8 @@ export const ComboBox: React.FC<ComboBoxFormProps> = ({
                   useSortedNames={useSortedNames}
                 />
               </DialogContent>
-           
-          </Dialog>
+            </Dialog>
+          )}
         </FormItem>
       )}
     />
