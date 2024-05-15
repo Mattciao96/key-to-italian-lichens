@@ -10,6 +10,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   Form,
   FormControl,
   FormDescription,
@@ -181,7 +191,7 @@ interface ComboBoxFormProps {
   useSearch: UseSearch;
   useSortedNames: UseSortedNames;
 }
-export const ComboBox: React.FC<ComboBoxFormProps> = ({
+/* export const ComboBox: React.FC<ComboBoxFormProps> = ({
   text,
   form,
   useSearch,
@@ -251,6 +261,82 @@ export const ComboBox: React.FC<ComboBoxFormProps> = ({
               />
             </PopoverContent>
           </Popover>
+        </FormItem>
+      )}
+    />
+  );
+}; */
+
+export const ComboBox: React.FC<ComboBoxFormProps> = ({
+  text,
+  form,
+  useSearch,
+  useSortedNames,
+}) => {
+  //const [selected, setSelected] = React.useState<string>("");
+  const [open, setOpen] = React.useState(false);
+
+  const handleSetSelectedValue = React.useCallback((selectedValue: string) => {
+    //setSelected(selectedValue);
+    form.setValue(text.labelText, selectedValue);
+    setOpen(false);
+  }, []);
+
+  //const displayName = selected ? selected : text.triggerText;
+
+  return (
+    <FormField
+      control={form.control}
+      name={text.labelText}
+      render={({ field }) => (
+        <FormItem className={cn("flex flex-col", POPOVER_WIDTH)}>
+          <FormLabel>{text.labelText}</FormLabel>
+
+          <Dialog open={open} onOpenChange={setOpen}>
+            <div className="relative">
+              <DialogTrigger asChild className="w-full">
+                <FormControl>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    className={cn("justify-between", POPOVER_WIDTH)}
+                  >
+                    {field.value ? field.value : text.triggerText}
+                    {(field.value === "" || field.value === undefined) && (
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    )}
+                  </Button>
+                </FormControl>
+              </DialogTrigger>
+              {field.value !== "" && field.value !== undefined && (
+                <Button
+                  className="absolute right-0 rounded-full bg-transparent hover:bg-transparent"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    form.resetField(text.labelText, { defaultValue: "" });
+                  }}
+                >
+                  <X className="text-primary h-4 w-4 shrink-0 opacity-50 hover:opacity-100 hover:text-destructive"></X>
+                </Button>
+              )}
+            </div>
+            
+              <DialogContent
+                side="bottom"
+                className={cn("top-[100px] translate-y-0 p-0", POPOVER_WIDTH)}
+              >
+                <SearchComboBox
+                  text={text}
+                  selectedResult={field.value}
+                  onSelectResult={handleSetSelectedValue}
+                  useSearch={useSearch}
+                  useSortedNames={useSortedNames}
+                />
+              </DialogContent>
+           
+          </Dialog>
         </FormItem>
       )}
     />
