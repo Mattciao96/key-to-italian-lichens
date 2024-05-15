@@ -110,6 +110,7 @@ const MultiSlider = React.forwardRef<
     : [props.min, props.max];
   const equalValue = initialValue[0] === initialValue[1];
   //const columnNumber = props.max - props.min;
+  // eslint-disable-next-line react/jsx-key
   const columns = [<Sun/>,<CloudSun/>,<CloudSun/>,<CloudSun/>,<Cloudy/>];
   const columnNumber = columns.length;
 
