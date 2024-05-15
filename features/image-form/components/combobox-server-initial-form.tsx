@@ -326,9 +326,9 @@ export const ComboBox: React.FC<ComboBoxFormProps> = ({
             
               <DialogContent
                 side="bottom"
-                className={cn("top-[50px] translate-y-0 p-0", POPOVER_WIDTH)}
+                className={cn("mt-1 rounded-md top-0 translate-y-0 p-0 w-[98vw]")}
             >
-              <Label>{text.labelText}</Label>
+              <Label className="pt-4 pl-4 ">{text.labelText}</Label>
                 <SearchComboBox
                   text={text}
                   selectedResult={field.value}
