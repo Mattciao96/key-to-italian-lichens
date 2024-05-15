@@ -15,6 +15,7 @@ import { MultiRangeForm } from "./multi-slider-test";
 
 import { filterData } from "@/features/image-form/data/filter-data";
 import { selectData } from "@/features/image-form/data/select-data";
+import { selectDataArea } from "@/features/image-form/data/select-data-area";
 import { rangeData } from "@/features/image-form/data/range-data";
 
 // for combobox
@@ -58,6 +59,9 @@ const FormSchema = z.object({
   LIG: z.array(z.number()),
   ARID: z.array(z.number()),
   EUTRO: z.array(z.number()),
+  area: z.string(),
+  region: z.string(),
+  ecoregion: z.string(),
 });
 
 const emptyForm = {
@@ -85,17 +89,20 @@ const emptyForm = {
   "growth-form": null,
   "water-relation": null,
   reproduction: null,
-  genus: '',
-  family: '',
+  genus: "",
+  family: "",
   PH: [1, 5],
   LIG: [1, 5],
   ARID: [1, 5],
   EUTRO: [1, 5],
+  area: null,
+  region: null,
+  ecoregion: null,
 };
-const inputData = ['genus', 'family']
-const fullData = [...radioData, ...selectData, ...rangeData];
-console.log(radioData);
-console.log(fullData);
+const inputData = ["genus", "family"];
+const fullData = [...selectDataArea, ...radioData, ...selectData, ...rangeData];
+//console.log(radioData);
+//console.log(fullData);
 
 export default function RadioGroupForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -108,6 +115,9 @@ export default function RadioGroupForm() {
       LIG: [1, 5],
       ARID: [1, 5],
       EUTRO: [1, 5],
+      area: "italy",
+      region: "ITA",
+      ecoregion: "12",
     },
   });
 
@@ -121,8 +131,12 @@ export default function RadioGroupForm() {
           <form
             /* onSubmit={form.handleSubmit(onSubmit)} */ className="space-y-6"
           >
+            {/* for area */}
+            {selectDataArea.map((data) => (
+              <SelectForm key={data.id} form={form} data={data}></SelectForm>
+            ))}
 
-<div className="flex justify-around flex-wrap gap-4">
+            <div className="flex justify-around flex-wrap gap-4">
               <ComboBox
                 text={{
                   labelText: "genus",
@@ -151,6 +165,19 @@ export default function RadioGroupForm() {
               />
             </div>
 
+           
+
+            
+            <div className="flex justify-around flex-wrap gap-4">
+              {rangeData.map((data) => (
+                <MultiRangeForm key={data.id} form={form} data={data} />
+              ))}
+            </div>
+
+            {/* try selectdata */}
+            {selectData.map((data) => (
+              <SelectForm key={data.id} form={form} data={data}></SelectForm>
+            ))}
 
             {radioData.map((groupData) => (
               <RadioImageGroupForm
@@ -160,16 +187,7 @@ export default function RadioGroupForm() {
               />
             ))}
 
-            {/* try selectdata */}
-            {selectData.map((data) => (
-              <SelectForm key={data.id} form={form} data={data}></SelectForm>
-            ))}
-            <div className="flex justify-around flex-wrap gap-4">
-              {rangeData.map((data) => (
-                <MultiRangeForm key={data.id} form={form} data={data} />
-              ))}
-            </div>
-            
+
 
             <Button asChild type="submit">
               <Link
@@ -184,11 +202,16 @@ export default function RadioGroupForm() {
           </form>
           {/* <div className="none md:sticky  sticky top-10 pt-10 h-screen overflow-y-auto border-l border-border"> */}
           {/*  <div className="none md:fixed w-[290px] md:top-10 md:right-0 pt-10 h-screen overflow-y-auto"> */}
-          <SelectedValues form={form} data={fullData} inputData={inputData} emptyForm={emptyForm} />
+          <SelectedValues
+            form={form}
+            data={fullData}
+            inputData={inputData}
+            emptyForm={emptyForm}
+          />
           <SelectedValuesMobile
             form={form}
             data={fullData}
-            inputData = {inputData}
+            inputData={inputData}
             emptyForm={emptyForm}
           />
         </div>

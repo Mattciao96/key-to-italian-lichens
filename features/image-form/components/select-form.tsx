@@ -1,5 +1,5 @@
 "use client";
-
+import { useEffect } from "react";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,23 @@ import {
 } from "@/components/ui/select";
 
 export default function SelectForm({ form, data }) {
+  const watchDependValue = data.depend
+    ? form.watch(data.depend.id)
+    : undefined;
+
+  useEffect(() => {
+    // 2: if the depend item is not selected, hide the group
+    if (data.depend && watchDependValue !== data.depend.item) {
+      // 3: remove the value from the form only if is not already undefined (otherwise it wil trigger infinite rerenders)
+      if (form.getValues(data.id)) {
+        form.resetField(data.id);
+      }
+    }
+  }, [watchDependValue, form, data]);
+
+  if (data.depend && watchDependValue !== data.depend.item) {
+    return null;
+  }
 
   return (
     <FormField

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ReactQueryProvider>
-        <body className={inter.className}>{children}</body>
+        <body className={cn(inter.className, "box-border")}>{children}</body>
       </ReactQueryProvider>
     </html>
   );
