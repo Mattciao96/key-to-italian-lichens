@@ -43,6 +43,7 @@ import {
 } from "@/features/image-form/utils/combobox-utils";
 import { ResetFieldButtonByFun } from "@/features/image-form/components/reset-field-button";
 import { UseFormReturn } from "react-hook-form";
+import { Label } from "@/components/ui/label";
 
 const POPOVER_WIDTH = "w-full max-w-[500px]";
 
@@ -325,8 +326,9 @@ export const ComboBox: React.FC<ComboBoxFormProps> = ({
             
               <DialogContent
                 side="bottom"
-                className={cn("top-[100px] translate-y-0 p-0", POPOVER_WIDTH)}
-              >
+                className={cn("top-[50px] translate-y-0 p-0", POPOVER_WIDTH)}
+            >
+              <Label>{text.labelText}</Label>
                 <SearchComboBox
                   text={text}
                   selectedResult={field.value}
