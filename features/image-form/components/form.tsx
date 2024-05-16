@@ -11,7 +11,7 @@ import RadioImageGroupForm from "@/features/image-form/components/radio-image-gr
 import SelectedValues from "@/features/image-form/components/selected-values";
 import SelectedValuesMobile from "@/features/image-form/components/selected-values-mobile";
 import SelectForm from "@/features/image-form/components/select-form";
-import SelectForm from "@/features/image-form/components/select-form-dialog";
+//import SelectForm from "@/features/image-form/components/select-form-dialog";
 import { MultiRangeForm } from "./multi-slider-test";
 
 import { filterData } from "@/features/image-form/data/filter-data";
