@@ -23,6 +23,7 @@ const SelectTrigger = React.forwardRef<
       className
     )}
     {...props}
+    onPointerDown={(e) => e.preventDefault()}
   >
     {children}
     <SelectPrimitive.Icon asChild>

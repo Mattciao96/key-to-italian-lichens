@@ -89,9 +89,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({
 
   if (!enabled) return null;
   if (isError) return <div className="p-4 text-sm">{text.errorText}</div>;
-  if (isLoading || query !== debouncedSearchQuery) {
+  /* if (isLoading || query !== debouncedSearchQuery) {
     return <div className="p-4 text-sm">{text.loadingText}</div>;
-  }
+  } */
   // SHOULD be replaced by CommandEmpty
   /* if (
     !isError &&

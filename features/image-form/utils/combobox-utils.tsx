@@ -80,7 +80,7 @@ export const useSearch: UseSearch = (query) => {
 
 
 export const useFamilySearch: UseSearch = (query) => {
-  const [debouncedSearchQuery] = useDebounce(query, 100);
+  const [debouncedSearchQuery] = useDebounce(query, 300);
   const enabled = debouncedSearchQuery.length >= 0;
   const {
     data,
