@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -106,6 +107,7 @@ const fullData = [...selectDataArea, ...radioData, ...selectData, ...rangeData];
 //console.log(fullData);
 
 export default function RadioGroupForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -122,15 +124,34 @@ export default function RadioGroupForm() {
     },
   });
 
+  const onSubmit = async (data) => {
+    // Send the form data to the API
+    const response = await fetch('https://italic.units.it/api/v1/key-filter', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    // Navigate to /response page with the API response
+    router.push({
+      pathname: '/key',
+      query: { result: JSON.stringify(result) },
+    });
+  };
+
   return (
     <>
       <div className="sticky top-0 z-10 bg-teal-100 shadow-bottom p-2">
         <h1 className="pl-10 text-xl ">Key to Italian Lichens</h1>
       </div>
-      <Form {...form}>
+      <Form {...form} >
         <div className="px-2 relative md:grid md:grid-cols-[1fr_300px]">
           <form
-            /* onSubmit={form.handleSubmit(onSubmit)} */ className="space-y-6"
+            onSubmit={form.handleSubmit(onSubmit)}  className="space-y-6"
           >
             {/* for area */}
             {selectDataArea.map((data) => (
@@ -190,14 +211,9 @@ export default function RadioGroupForm() {
 
 
             <Button asChild type="submit">
-              <Link
-                href={{
-                  pathname: "/key",
-                  query: form.getValues(),
-                }}
-              >
-                About
-              </Link>
+              
+                Submit
+              
             </Button>
           </form>
           {/* <div className="none md:sticky  sticky top-10 pt-10 h-screen overflow-y-auto border-l border-border"> */}
