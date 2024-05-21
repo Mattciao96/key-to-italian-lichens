@@ -1,3 +1,4 @@
+"use client";
 import { MultiSlider } from "@/components/multi-slider";
 import React, { useRef, useEffect, useState } from 'react';
 

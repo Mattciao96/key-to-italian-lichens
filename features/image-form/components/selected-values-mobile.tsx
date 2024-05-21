@@ -1,3 +1,4 @@
+"use client";
 import { List, MousePointer2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SelectedValue, SelectedInputValue } from "@/features/image-form/components/selected-values";

@@ -163,6 +163,9 @@ export default class Tree {
   prune2(leadSpeciesIds) {
     this.root = this.pruneRecursive2(this.root, leadSpeciesIds);
   }
+  prune3(leadRecordIds) {
+    this.root = this.pruneRecursive3(this.root, leadRecordIds);
+  }
 
   /* pruneRecursive(node, leadSpeciesIds) {
     node.children = node.children
@@ -228,6 +231,43 @@ export default class Tree {
         //! this works but souldn't
         //node.children[0].parentId = parentNode.leadId;
         // ? tis is correct and, for now works
+        node.children[0].data.parentId = parentNode.data.parentId;
+        return node.children[0];
+      }
+    }
+
+    return null;
+  }
+
+  pruneRecursive3(node, leadRecordIds) {
+    node.children = node.children
+      .map((child) => this.pruneRecursive3(child, leadRecordIds))
+      .filter(Boolean);
+
+    if (leadRecordIds.includes(node.data.leadRecordId)) {
+      return node;
+    }
+
+    if (node.children.length > 1) {
+      return node;
+    }
+
+    if (node.children.length === 1) {
+      let parentNode = this.find(node.data.parentId);
+      // this cover singles before the first couplet
+      // still keeps 0
+      if (!parentNode) {
+        return node.children[0];
+      }
+
+      if (parentNode.children.length > 1) {
+        node.children[0].data.parentId = node.data.parentId;
+        node.children[0].data.leadText = node.data.leadText;
+        return node.children[0];
+      } else {
+        //! this works but souldn't
+        //node.children[0].parentId = parentNode.leadId;
+        // ? this is correct and, for now works
         node.children[0].data.parentId = parentNode.data.parentId;
         return node.children[0];
       }

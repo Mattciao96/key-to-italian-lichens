@@ -1,4 +1,5 @@
 // SelectedValue.tsx
+"use client";
 import { X } from "lucide-react";
 import {
   Accordion,

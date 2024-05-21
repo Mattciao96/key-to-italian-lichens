@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import { FormItem, FormControl, FormLabel } from "@/components/ui/form";
 import { RadioGroupItem } from "@/components/ui/radio-group";

@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { useDebounce } from "use-debounce";
 import { useQuery } from "@tanstack/react-query";

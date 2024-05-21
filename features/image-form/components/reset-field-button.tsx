@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { CircleX } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
 import axios from "axios";
 import Tree from "@/features/key/utils/key-builder";
 import { Button } from "@/components/ui/button";
@@ -6,17 +7,30 @@ import KeyPrint from "@/features/key/components/key-print";
 import SpeciesList from "@/features/key/components/species-list";
 
 function TreeNavigationWrapper() {
+  const router = useRouter();
   const [tree, setTree] = useState(null);
+  let leadRecordIds = [];
+    const result = localStorage.getItem('result');
+    if (result) {
+      leadRecordIds = JSON.parse(result);
+      console.log(leadRecordIds);
+    }
+
   useEffect(() => {
-    axios.get("key/newKey.json").then((response) => {
+
+
+    axios.get("https://italic.units.it/api/v1/full-key").then((response) => {
       const data = response.data;
       const newTree = new Tree();
       newTree.buildTree(data);
 
-      //let leadSpeciesIds = ["9999999999", "62929999", "867788888", "1774", "3206", "3281", '804', '2056', '4188', '689'];
-      let leadSpeciesIds = ["1774", "145"];
+      //let leadRecordIds = ["9999999999", "62929999", "867788888", "1774", "3206", "3281", '804', '2056', '4188', '689'];
+      //let leadSpeciesIds = ["1774", "145"];
 
-      newTree.prune2(leadSpeciesIds);
+      //newTree.prune3(leadSpeciesIds);
+
+        newTree.prune3(leadRecordIds);
+      
 
       //console.log(newTree);
 

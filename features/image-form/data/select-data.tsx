@@ -1,6 +1,6 @@
 export const selectData = [
   {
-    id: 'substratum',
+    id: 'subst',
     title: 'substratum',
     items: [
       { value: "Sax", text: "saxicolous" },
@@ -11,7 +11,7 @@ export const selectData = [
     ],
   },
   {
-    id: 'photobiont',
+    id: 'photo',
     title: 'photobiont',
     items:  [
       { value: "Ch", text: "green algae other than Trentepohlia" },
@@ -27,7 +27,7 @@ export const selectData = [
     ],
   },
   {
-    id: 'growth-form',
+    id: 'growth',
     title: 'Growth form',
     items: [
       { value: "Frut", text: "fruticose" },
@@ -46,7 +46,7 @@ export const selectData = [
     ],
   },
   {
-    id: 'water-relation',
+    id: 'srw',
     title: 'Water needs',
     items: [
       {
@@ -61,7 +61,7 @@ export const selectData = [
     ],
   },
   {
-    id: 'reproduction',
+    id: 'repro',
     title: 'Reproduction',
     items: [
       { value: "S", text: "mainly sexual" },
@@ -75,6 +75,51 @@ export const selectData = [
       },
       { value: "A.f", text: "mainly asexual, by thallus fragmentation" },
     ],
+  },
+  {
+    id: 'oc',
+    title: 'Phytoclimatic range',
+    items: [
+      { value: "oc", text: "Oceanic" },
+      { value: "suboc", text: "Suboceanic" },
+      { value: "subc", text: "Subcontinental" },
+      ],
+  },
+  {
+    id: 'coast',
+    title: 'Only costal species',
+    items: [
+      { value: "null", text: "No" },
+      { value: "coast", text: "Yes" },
+      { value: "without", text: "Without those species" },
+      ],
+  },
+  {
+    id: 'paras',
+    title: 'Only parasitic species',
+    items: [
+      { value: "null", text: "No" },
+      { value: "paras", text: "Yes" },
+      { value: "without", text: "Without those species" },
+      ],
+  },
+  {
+    id: 'pion',
+    title: 'Only pioneer species',
+    items: [
+      { value: "null", text: "No" },
+      { value: "p", text: "Yes" },
+      { value: "without", text: "Without those species" },
+      ],
+  },
+  {
+    id: 'metal',
+    title: 'Only species of metal-rich substrata',
+    items: [
+      { value: "null", text: "No" },
+      { value: "m", text: "Yes" },
+      { value: "without", text: "Without those species" },
+      ],
   },
 ];
 

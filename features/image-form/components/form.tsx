@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,7 +18,8 @@ import { MultiRangeForm } from "./multi-slider-test";
 import { filterData } from "@/features/image-form/data/filter-data";
 import { selectData } from "@/features/image-form/data/select-data";
 import { selectDataArea } from "@/features/image-form/data/select-data-area";
-import { rangeData } from "@/features/image-form/data/range-data";
+//import { rangeData } from "@/features/image-form/data/range-data";
+import { rangeData } from "@/features/image-form/data/range-data-min-max";
 
 // for combobox
 import { ComboBox } from "@/features/image-form/components/combobox-server-initial-form";
@@ -50,20 +51,33 @@ const FormSchema = z.object({
   "36": z.optional(z.enum(["1", "2"])),
   "42": z.optional(z.enum(["1", "2", "3"])),
   "12": z.optional(z.enum(["1", "3", "4", "5"])),
-  substratum: z.optional(z.string()),
-  photobiont: z.optional(z.string()),
-  "growth-form": z.optional(z.string()),
-  "water-relation": z.optional(z.string()),
-  reproduction: z.optional(z.string()),
+  subst: z.optional(z.string()),
+  photo: z.optional(z.string()),
+  growth: z.optional(z.string()),
+  srw: z.optional(z.string()),
+  repro: z.optional(z.string()),
+  oc: z.optional(z.string()),
+  coast: z.optional(z.string()),
+  paras: z.optional(z.string()),
+  metal: z.optional(z.string()),
+  pion: z.optional(z.string()),
   genus: z.optional(z.string()),
   family: z.optional(z.string()),
-  PH: z.array(z.number()),
-  LIG: z.array(z.number()),
-  ARID: z.array(z.number()),
-  EUTRO: z.array(z.number()),
-  area: z.string(),
-  region: z.string(),
-  ecoregion: z.string(),
+  PH1: z.optional(z.string()),
+  PH2: z.optional(z.string()),
+  LIG1: z.optional(z.string()),
+  LIG2: z.optional(z.string()),
+  ARID1: z.optional(z.string()),
+  ARID2: z.optional(z.string()),
+  EUTR1: z.optional(z.string()),
+  EUTR2: z.optional(z.string()),
+  PF1: z.optional(z.string()),
+  PF2: z.optional(z.string()),
+  ALT1: z.optional(z.string()),
+  ALT2: z.optional(z.string()),
+  area: z.optional(z.string()),
+  region: z.optional(z.string()),
+  ecoregion: z.optional(z.string()),
 });
 
 const emptyForm = {
@@ -86,17 +100,30 @@ const emptyForm = {
   "36": null,
   "42": null,
   "12": null,
-  substratum: null,
-  photobiont: null,
-  "growth-form": null,
-  "water-relation": null,
-  reproduction: null,
+  subst: null,
+  photo: null,
+  growth: null,
+  srw: null,
+  oc: null,
+  coast: null,
+
+  paras: null,
+  metal: null,
+  pion: null,
   genus: "",
   family: "",
-  PH: [1, 5],
-  LIG: [1, 5],
-  ARID: [1, 5],
-  EUTRO: [1, 5],
+  PH1: null,
+  PH2: null,
+  LIG1: null,
+  LIG2: null,
+  ARID1: null,
+  ARID2: null,
+  EUTRO1: null,
+  EUTRO2: null,
+  PF1: null,
+  PF2: null,
+  ALT1: null,
+  ALT2: null,
   area: null,
   region: null,
   ecoregion: null,
@@ -111,25 +138,20 @@ export default function RadioGroupForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      "4": "1",
-      "45": "2",
-      substratum: "Sax",
-      PH: [1, 5],
-      LIG: [1, 5],
-      ARID: [1, 5],
-      EUTRO: [1, 5],
-      area: "italy",
+     /*  area: "italy",
       region: "ITA",
-      ecoregion: "12",
+      ecoregion: "12", */
     },
   });
 
   const onSubmit = async (data) => {
     // Send the form data to the API
-    const response = await fetch('https://italic.units.it/api/v1/key-filter', {
-      method: 'POST',
+    console.log("fa qualcosa");
+
+    const response = await fetch("https://italic.units.it/api/v1/key-filter", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
@@ -137,10 +159,8 @@ export default function RadioGroupForm() {
     const result = await response.json();
 
     // Navigate to /response page with the API response
-    router.push({
-      pathname: '/key',
-      query: { result: JSON.stringify(result) },
-    });
+    localStorage.setItem("result", JSON.stringify(result));
+    router.push("/key");
   };
 
   return (
@@ -148,11 +168,9 @@ export default function RadioGroupForm() {
       <div className="sticky top-0 z-10 bg-teal-100 shadow-bottom p-2">
         <h1 className="pl-10 text-xl ">Key to Italian Lichens</h1>
       </div>
-      <Form {...form} >
+      <Form {...form}>
         <div className="px-2 relative md:grid md:grid-cols-[1fr_300px]">
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}  className="space-y-6"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {/* for area */}
             {selectDataArea.map((data) => (
               <SelectForm key={data.id} form={form} data={data}></SelectForm>
@@ -187,15 +205,16 @@ export default function RadioGroupForm() {
               />
             </div>
 
-
-            
-            <div className="flex justify-around flex-wrap gap-4">
+            {/* <div className="flex justify-around flex-wrap gap-4">
               {rangeData.map((data) => (
                 <MultiRangeForm key={data.id} form={form} data={data} />
               ))}
-            </div>
+            </div> */}
 
             {/* try selectdata */}
+            {rangeData.map((data) => (
+              <SelectForm key={data.id} form={form} data={data}></SelectForm>
+            ))}
             {selectData.map((data) => (
               <SelectForm key={data.id} form={form} data={data}></SelectForm>
             ))}
@@ -208,13 +227,7 @@ export default function RadioGroupForm() {
               />
             ))}
 
-
-
-            <Button asChild type="submit">
-              
-                Submit
-              
-            </Button>
+            <Button type="submit">Submito</Button>
           </form>
           {/* <div className="none md:sticky  sticky top-10 pt-10 h-screen overflow-y-auto border-l border-border"> */}
           {/*  <div className="none md:fixed w-[290px] md:top-10 md:right-0 pt-10 h-screen overflow-y-auto"> */}

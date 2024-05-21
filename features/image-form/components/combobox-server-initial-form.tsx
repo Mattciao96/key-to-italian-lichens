@@ -294,7 +294,7 @@ export const ComboBox: React.FC<ComboBoxFormProps> = ({
       render={({ field }) => (
         <FormItem className={cn("flex flex-col", POPOVER_WIDTH)}>
           <FormLabel>{text.labelText}</FormLabel>
-          {isDesktop && (
+          {(
             <Popover open={open} onOpenChange={setOpen}>
               <div className="relative">
                 <PopoverTrigger asChild className="w-full">
@@ -342,7 +342,7 @@ export const ComboBox: React.FC<ComboBoxFormProps> = ({
               </PopoverContent>
             </Popover>
           )}
-          {isMobile && (
+          {/* {isMobile && (
             <Dialog open={open} onOpenChange={setOpen}>
               <div className="relative">
                 <DialogTrigger asChild className="w-full">
@@ -390,7 +390,7 @@ export const ComboBox: React.FC<ComboBoxFormProps> = ({
                 />
               </DialogContent>
             </Dialog>
-          )}
+          )} */}
         </FormItem>
       )}
     />
