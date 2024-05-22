@@ -63,3 +63,35 @@ function compareArrays(mother, children) {
 
   return result;
 }
+
+
+
+export function CurrentSpeciesList({ tree, currentNode }) {
+  const itemsPerPage = 50; // number of items to render at a time
+  const [page, setPage] = useState(1);
+
+  let currentTaxa = tree.getLeaves(currentNode.data.leadId).map((leaf) => leaf.data.leadSpecies)
+  currentTaxa = sortAndRemoveDuplicates(currentTaxa);
+
+  const items = currentTaxa.slice(0, page * itemsPerPage);
+
+  const fetchMoreItems = () => {
+    setTimeout(() => {
+      setPage(page + 1);
+    }, 1000);
+  };
+
+  return (
+    <>
+      <div className="my-4">List of species:</div>
+    <InfiniteScroll
+        dataLength={items.length}
+        next={fetchMoreItems}
+        hasMore={items.length < currentTaxa.length}
+        loader={<h4>Loading...</h4>}
+      >
+      {items.map((taxa, index) => <li key={index}>{taxa}</li>)}
+      </InfiniteScroll>
+      </>
+  );
+}

@@ -4,7 +4,7 @@ import axios from "axios";
 import Tree from "@/features/key/utils/key-builder";
 import { Button } from "@/components/ui/button";
 import KeyPrint from "@/features/key/components/key-print";
-import SpeciesList from "@/features/key/components/species-list";
+import SpeciesList, { CurrentSpeciesList } from "@/features/key/components/species-list";
 
 function TreeNavigationWrapper() {
   const router = useRouter();
@@ -70,8 +70,11 @@ function TreeNavigation({ tree }) {
       const numberOfChildrenLeaves2 = tree.getNumberOfUniqueLeaves(
         currentNode.children[1]?.data.leadId
       );
-      const child1Text = currentNode.children[0]?.data.leadText || "N/A";
-      const child2Text = currentNode.children[1]?.data.leadText || "N/A";
+      const child1Species = currentNode.children[0]?.data.leadSpecies;
+      const child1Text = `${currentNode.children[0]?.data.leadText || "N/A"}${child1Species ? ` (${child1Species})` : ""}`;
+      
+      const child2Species = currentNode.children[1]?.data.leadSpecies;
+const child2Text = `${currentNode.children[1]?.data.leadText || "N/A"}${child2Species ? ` (${child2Species})` : ""}`;
       const leadSpecies =
         currentNode.data.leadSpecies !== "no_species"
           ? currentNode.data.leadSpecies
@@ -93,6 +96,8 @@ function TreeNavigation({ tree }) {
         leadSpecies,
         child1Image,
         child2Image,
+        child1Species,
+        child2Species
       });
     }
   }, [currentNode, tree]);
@@ -161,8 +166,8 @@ function TreeNavigation({ tree }) {
         </div>
       </div>
       <div className="flex gap-4">
-        <Button onClick={goToChild1}>Go to Child 1</Button>
-        <Button onClick={goToChild2}>Go to Child 2</Button>
+        <Button onClick={goToChild1} disabled={!!info.child1Species}>Go to Child 1</Button>
+        <Button onClick={goToChild2} disabled={!!info.child2Species}>Go to Child 2</Button>
         <Button onClick={goBack}>Go Back</Button>
       </div>
       <div>
@@ -173,7 +178,12 @@ function TreeNavigation({ tree }) {
           </div>
         ))}
       </div>
-      <SpeciesList
+      {/* <SpeciesList
+        key={`sp-${currentNode.data.leadId}`}
+        tree={tree}
+        currentNode={currentNode}
+      /> */}
+      <CurrentSpeciesList
         key={`sp-${currentNode.data.leadId}`}
         tree={tree}
         currentNode={currentNode}
