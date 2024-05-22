@@ -1,25 +1,28 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import Tree from "@/features/key/utils/key-builder";
 import { Button } from "@/components/ui/button";
 import KeyPrint from "@/features/key/components/key-print";
-import SpeciesList, { CurrentSpeciesList } from "@/features/key/components/species-list";
+import SpeciesList, {
+  CurrentSpeciesList,
+} from "@/features/key/components/species-list";
 
 function TreeNavigationWrapper() {
   const router = useRouter();
   const [tree, setTree] = useState(null);
   let leadRecordIds = [];
-    const result = localStorage.getItem('result');
+
+  if (typeof window !== 'undefined') {
+    const result = localStorage.getItem("result");
     if (result) {
       leadRecordIds = JSON.parse(result);
       console.log(leadRecordIds);
     }
+  }
 
   useEffect(() => {
-
-
     axios.get("https://italic.units.it/api/v1/full-key").then((response) => {
       const data = response.data;
       const newTree = new Tree();
@@ -30,8 +33,10 @@ function TreeNavigationWrapper() {
 
       //newTree.prune3(leadSpeciesIds);
 
-        newTree.prune3(leadRecordIds);
-      
+      // move localstorage here
+     
+
+      newTree.prune3(leadRecordIds);
 
       //console.log(newTree);
 
@@ -72,10 +77,14 @@ function TreeNavigation({ tree }) {
         currentNode.children[1]?.data.leadId
       );
       const child1Species = currentNode.children[0]?.data.leadSpecies;
-      const child1Text = `${currentNode.children[0]?.data.leadText || "N/A"}${child1Species ? ` (${child1Species})` : ""}`;
-      
+      const child1Text = `${currentNode.children[0]?.data.leadText || "N/A"}${
+        child1Species ? ` (${child1Species})` : ""
+      }`;
+
       const child2Species = currentNode.children[1]?.data.leadSpecies;
-const child2Text = `${currentNode.children[1]?.data.leadText || "N/A"}${child2Species ? ` (${child2Species})` : ""}`;
+      const child2Text = `${currentNode.children[1]?.data.leadText || "N/A"}${
+        child2Species ? ` (${child2Species})` : ""
+      }`;
       const leadSpecies =
         currentNode.data.leadSpecies !== "no_species"
           ? currentNode.data.leadSpecies
@@ -98,7 +107,7 @@ const child2Text = `${currentNode.children[1]?.data.leadText || "N/A"}${child2Sp
         child1Image,
         child2Image,
         child1Species,
-        child2Species
+        child2Species,
       });
     }
   }, [currentNode, tree]);
@@ -167,8 +176,12 @@ const child2Text = `${currentNode.children[1]?.data.leadText || "N/A"}${child2Sp
         </div>
       </div>
       <div className="flex gap-4">
-        <Button onClick={goToChild1} disabled={!!info.child1Species}>Go to Child 1</Button>
-        <Button onClick={goToChild2} disabled={!!info.child2Species}>Go to Child 2</Button>
+        <Button onClick={goToChild1} disabled={!!info.child1Species}>
+          Go to Child 1
+        </Button>
+        <Button onClick={goToChild2} disabled={!!info.child2Species}>
+          Go to Child 2
+        </Button>
         <Button onClick={goBack}>Go Back</Button>
       </div>
       <div>
