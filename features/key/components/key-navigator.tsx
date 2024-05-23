@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -14,7 +15,7 @@ function TreeNavigationWrapper() {
   const [tree, setTree] = useState(null);
   let leadRecordIds = [];
 
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const result = localStorage.getItem("result");
     if (result) {
       leadRecordIds = JSON.parse(result);
@@ -34,7 +35,6 @@ function TreeNavigationWrapper() {
       //newTree.prune3(leadSpeciesIds);
 
       // move localstorage here
-     
 
       newTree.prune3(leadRecordIds);
 
@@ -138,8 +138,61 @@ function TreeNavigation({ tree }) {
     }
   };
   return (
-    <div>
-      <div id="info">
+    <div className="w-full">
+      <div id="info2" className="w-full">
+        <div className="grid grid-cols-[60%_20%_20%] mx-4 mt-4">
+          <div className=" p-2 border rounded-sm">
+            {info.numberOfLeaves} Remaining taxa{" "}
+          </div>
+          <Button className='ml-8' onClick={goBack}>Go Back</Button>
+          <Button className='ml-8' asChild><a href="/filter">Return to filters</a></Button>
+        </div>
+
+        <div
+          onClick={goToChild1}
+          className="transition-all ease-in-out duration-300 hover:shadow-xl shadow-sm border rounded-sm hover:cursor-pointer my-8 mx-4 p-4  h-500px flex flex-col items-center justify-evenly"
+        >
+          {info.child1Image ? (
+            <img
+              key={info.child1Image}
+              className="h-[200px]"
+              src={`https://italic.units.it/flora/${info.child1Image}`}
+              alt="Child 1"
+            />
+          ) : (
+            <img
+              className="w-[200px] h-[200px]"
+              src={`placeholder.svg`}
+              alt="Child 1"
+            />
+          )}
+          <p>{info.child1Text}</p>
+          <p>{info.numberOfChildrenLeaves1} taxa</p>
+        </div>
+
+        <div
+          onClick={goToChild2}
+          className="transition-all ease-in-out duration-300 hover:shadow-xl shadow-sm border rounded-sm hover:cursor-pointer my-8 mx-4 p-4  h-500px flex flex-col items-center justify-evenly"
+        >
+          {info.child2Image ? (
+            <img
+              key={info.child2Image}
+              className="h-[200px]"
+              src={`https://italic.units.it/flora/${info.child2Image}`}
+              alt="Child 1"
+            />
+          ) : (
+            <img
+              className="w-[200px] h-[200px]"
+              src={`placeholder.svg`}
+              alt="Child 1"
+            />
+          )}
+          <p>{info.child2Text}</p>
+          <p>{info.numberOfChildrenLeaves2} taxa</p>
+        </div>
+      </div>
+      {/* <div id="info">
         {info.currentId}
         <br />
         Number of leaves: {info.numberOfLeaves}
@@ -183,7 +236,7 @@ function TreeNavigation({ tree }) {
           Go to Child 2
         </Button>
         <Button onClick={goBack}>Go Back</Button>
-      </div>
+      </div> */}
       <div>
         <h2>History</h2>
         {history.map((node, index) => (

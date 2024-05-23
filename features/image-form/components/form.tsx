@@ -152,7 +152,8 @@ export default function RadioGroupForm() {
   const onSubmit = async (data) => {
     // Send the form data to the API
     console.log("fa qualcosa");
-
+    console.log(JSON.stringify(data));
+    
     const response = await fetch("https://italic.units.it/api/v1/key-filter", {
       method: "POST",
       headers: {
