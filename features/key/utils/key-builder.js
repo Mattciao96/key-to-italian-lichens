@@ -261,8 +261,14 @@ export default class Tree {
       }
 
       if (parentNode.children.length > 1) {
+        // ! original bugged
         node.children[0].data.parentId = node.data.parentId;
         node.children[0].data.leadText = node.data.leadText;
+        //node.children[0].data.leadText = 'oh no garbage';
+  
+        node.children[0].data.leadImage = node.data.leadImage;
+
+               
         return node.children[0];
       } else {
         //! this works but souldn't
