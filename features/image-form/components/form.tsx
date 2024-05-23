@@ -20,7 +20,7 @@ import { selectData } from "@/features/image-form/data/select-data";
 import { selectDataArea } from "@/features/image-form/data/select-data-area";
 //import { rangeData } from "@/features/image-form/data/range-data";
 import { rangeData } from "@/features/image-form/data/range-data-min-max";
-
+import { rarityData } from "@/features/image-form/data/rarity-data";
 // for combobox
 import { ComboBox } from "@/features/image-form/components/combobox-server-initial-form";
 import {
@@ -28,6 +28,7 @@ import {
   useFamilySearch,
   useDefaultSortedNames,
 } from "@/features/image-form/utils/combobox-utils";
+
 
 const radioData = filterData;
 
@@ -78,6 +79,8 @@ const FormSchema = z.object({
   area: z.optional(z.string()),
   region: z.optional(z.string()),
   ecoregion: z.optional(z.string()),
+  COMM1: z.optional(z.string()),
+  COMM2: z.optional(z.string()),
 });
 
 const emptyForm = {
@@ -127,9 +130,11 @@ const emptyForm = {
   area: null,
   region: null,
   ecoregion: null,
+  COMM1: null,
+  COMM2: null,
 };
 const inputData = ["genus", "family"];
-const fullData = [...selectDataArea, ...radioData, ...selectData, ...rangeData];
+const fullData = [...selectDataArea, ...rarityData, ...radioData, ...selectData, ...rangeData];
 //console.log(radioData);
 //console.log(fullData);
 
@@ -138,7 +143,7 @@ export default function RadioGroupForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-     /*  area: "italy",
+      /*  area: "italy",
       region: "ITA",
       ecoregion: "12", */
     },
@@ -171,8 +176,13 @@ export default function RadioGroupForm() {
       <Form {...form}>
         <div className="px-2 relative md:grid md:grid-cols-[1fr_300px]">
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            
             {/* for area */}
             {selectDataArea.map((data) => (
+              <SelectForm key={data.id} form={form} data={data}></SelectForm>
+            ))}
+            {/* for rarity */}
+            {rarityData.map((data) => (
               <SelectForm key={data.id} form={form} data={data}></SelectForm>
             ))}
 
@@ -236,12 +246,14 @@ export default function RadioGroupForm() {
             data={fullData}
             inputData={inputData}
             emptyForm={emptyForm}
+            onSubmit={onSubmit}
           />
           <SelectedValuesMobile
             form={form}
             data={fullData}
             inputData={inputData}
             emptyForm={emptyForm}
+            onSubmit={onSubmit}
           />
         </div>
       </Form>

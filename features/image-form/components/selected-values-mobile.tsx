@@ -12,7 +12,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-export default function SelectedValuesMobile({ form, data, inputData, emptyForm }) {
+export default function SelectedValuesMobile({ form, data, inputData, emptyForm, onSubmit }) {
   const values = form.watch();
   return (
     <div className="block md:hidden fixed bottom-0 left-0 z-50 w-full h-16 bg-background border-t border-border ">
@@ -21,7 +21,8 @@ export default function SelectedValuesMobile({ form, data, inputData, emptyForm 
               
               variant="ghost"
               type="button"
-              className="h-full py-0 inline-flex flex-col items-center justify-center gap-1 px-5 border-e border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 group dark:border-gray-600"
+          className="h-full py-0 inline-flex flex-col items-center justify-center gap-1 px-5 border-e border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 group dark:border-gray-600"
+          onClick={form.handleSubmit(onSubmit)}
             >
           <MousePointer2 className="pt-1 -pb-1"></MousePointer2>
           <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
@@ -37,7 +38,7 @@ export default function SelectedValuesMobile({ form, data, inputData, emptyForm 
               type="button"
               className="h-full py-0 inline-flex flex-col items-center justify-center gap-1 px-5 border-e border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 group dark:border-gray-600"
             >
-             
+
                 <List></List>
                 <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
                   See Filters

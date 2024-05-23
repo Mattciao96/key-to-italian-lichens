@@ -1,76 +1,80 @@
-[{
-  id: "COMM1",
-  title: "Min rarity",
-  items: [
-    {
-      value: 'er',
-      text: "extremely rare",
-    },
-    {
-      value: 'vr',
-      text: "very rare",
-    },
-    {
-      value: 'r',
-      text: "rare",
-    },
-    {
-      value: 'rr',
-      text: "rather rare",
-    },
-    {
-      value: 'rc',
-      text: "rather common",
-    },
-    {
-      value: 'c',
-      text: "common",
-    },
-    {
-      value: 'vc',
-      text: "very common",
-    },
-    {
-      value: 'ec',
-      text: "extremely common",
-    },
-  ],
-},
-{
-  id: "COMM2",
-  title: "Max rarity",
-  items: [
-    {
-      value: 'er',
-      text: "extremely rare",
-    },
-    {
-      value: 'vr',
-      text: "very rare",
-    },
-    {
-      value: 'r',
-      text: "rare",
-    },
-    {
-      value: 'rr',
-      text: "rather rare",
-    },
-    {
-      value: 'rc',
-      text: "rather common",
-    },
-    {
-      value: 'c',
-      text: "common",
-    },
-    {
-      value: 'vc',
-      text: "very common",
-    },
-    {
-      value: 'ec',
-      text: "extremely common",
-    },
-  ],
-},]
+export const rarityData = [
+  {
+    id: "COMM1",
+    title: "Min rarity",
+    depend: { id: "area", item: "italy" },
+    items: [
+      {
+        value: "1",
+        text: "1: extremely rare",
+      },
+      {
+        value: "2",
+        text: "2: very rare",
+      },
+      {
+        value: "3",
+        text: "3: rare",
+      },
+      {
+        value: "4",
+        text: "4: rather rare",
+      },
+      {
+        value: "5",
+        text: "5: rather common",
+      },
+      {
+        value: "6",
+        text: "6: common",
+      },
+      {
+        value: "7",
+        text: "7: very common",
+      },
+      {
+        value: "8",
+        text: "8: extremely common",
+      },
+    ],
+  },
+  {
+    id: "COMM2",
+    title: "Max rarity",
+    depend: { id: "area", item: "italy" },
+    items: [
+      {
+        value: "1",
+        text: "1: extremely rare",
+      },
+      {
+        value: "2",
+        text: "2: very rare",
+      },
+      {
+        value: "3",
+        text: "3: rare",
+      },
+      {
+        value: "4",
+        text: "4: rather rare",
+      },
+      {
+        value: "5",
+        text: "5: rather common",
+      },
+      {
+        value: "6",
+        text: "6: common",
+      },
+      {
+        value: "7",
+        text: "7: very common",
+      },
+      {
+        value: "8",
+        text: "8: extremely common",
+      },
+    ],
+  },
+];

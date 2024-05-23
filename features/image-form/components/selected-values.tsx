@@ -11,14 +11,14 @@ import { ResetFieldButton, ResetFieldButtonByFun } from "@/features/image-form/c
 import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 
-export default function SelectedValues({ form, data, inputData, emptyForm }) {
+export default function SelectedValues({ form, data, inputData, emptyForm, onSubmit }) {
   const values = form.watch();
 
   
   return (
     <aside className="hidden md:block md:sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto">
       <div className="flex -ml-1 justify-around">
-        <Button className="w-[140px]">Submit</Button>
+        <Button className="w-[140px]" onClick={form.handleSubmit(onSubmit)}>Submit</Button>
         <Button
           variant="destructive"
           className="w-[140px]"
