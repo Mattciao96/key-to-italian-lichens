@@ -114,15 +114,23 @@ function TreeNavigation({ tree }) {
 
   const goToChild1 = () => {
     if (currentNode.children[0]) {
-      setCurrentNode(currentNode.children[0]);
-      setHistory([...history, currentNode.children[0]]);
+      if (currentNode.children[0].data.leadSpecies) {
+        alert("You cannot go further.");
+      } else {
+        setCurrentNode(currentNode.children[0]);
+        setHistory([...history, currentNode.children[0]]);
+      }
     }
   };
 
   const goToChild2 = () => {
     if (currentNode.children[1]) {
-      setCurrentNode(currentNode.children[1]);
-      setHistory([...history, currentNode.children[1]]);
+      if (currentNode.children[1].data.leadSpecies) {
+        alert("You cannot go further.");
+      } else {
+        setCurrentNode(currentNode.children[1]);
+        setHistory([...history, currentNode.children[1]]);
+      }
     }
   };
 
@@ -144,13 +152,17 @@ function TreeNavigation({ tree }) {
           <div className=" p-2 border rounded-sm">
             {info.numberOfLeaves} Remaining taxa{" "}
           </div>
-          <Button className='ml-8' onClick={goBack}>Go Back</Button>
-          <Button className='ml-8' asChild><a href="/filter">Return to filters</a></Button>
+          <Button className="ml-8" onClick={goBack}>
+            Go Back
+          </Button>
+          <Button className="ml-8" asChild>
+            <a href="/filter">Return to filters</a>
+          </Button>
         </div>
 
         <div
           onClick={goToChild1}
-          className="transition-all ease-in-out duration-300 hover:shadow-xl shadow-sm border rounded-sm hover:cursor-pointer my-8 mx-4 p-4  h-500px flex flex-col items-center justify-evenly"
+          className="hover:bg-white transition-all ease-in-out duration-300 hover:shadow-xl shadow-sm border rounded-sm hover:cursor-pointer my-8 mx-4 p-4  h-500px flex flex-col items-center justify-evenly"
         >
           {info.child1Image ? (
             <img
@@ -172,7 +184,7 @@ function TreeNavigation({ tree }) {
 
         <div
           onClick={goToChild2}
-          className="transition-all ease-in-out duration-300 hover:shadow-xl shadow-sm border rounded-sm hover:cursor-pointer my-8 mx-4 p-4  h-500px flex flex-col items-center justify-evenly"
+          className="hover:bg-white transition-all ease-in-out duration-300 hover:shadow-xl shadow-sm border rounded-sm hover:cursor-pointer my-8 mx-4 p-4  h-500px flex flex-col items-center justify-evenly"
         >
           {info.child2Image ? (
             <img

@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ReactQueryProvider>
-        <body className={cn(inter.className, "box-border")}>{children}</body>
+        <body className={cn(inter.className, "box-border bg-yellow-100")}>{children}</body>
       </ReactQueryProvider>
     </html>
   );
