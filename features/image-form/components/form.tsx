@@ -29,7 +29,6 @@ import {
   useDefaultSortedNames,
 } from "@/features/image-form/utils/combobox-utils";
 
-
 const radioData = filterData;
 
 const FormSchema = z.object({
@@ -85,34 +84,34 @@ const FormSchema = z.object({
 
 const emptyForm = {
   "4": undefined,
-  "26": null,
-  "45": null,
-  "53": null,
-  "11": null,
-  "7": null,
-  "27": null,
-  "41": null,
-  "23": null,
-  "33": null,
-  "46": null,
-  "37": null,
-  "8": null,
-  "34": null,
-  "35": null,
-  "52": null,
-  "36": null,
-  "42": null,
-  "12": null,
+  "26": undefined,
+  "45": undefined,
+  "53": undefined,
+  "11": undefined,
+  "7": undefined,
+  "27": undefined,
+  "41": undefined,
+  "23": undefined,
+  "33": undefined,
+  "46": undefined,
+  "37": undefined,
+  "8": undefined,
+  "34": undefined,
+  "35": undefined,
+  "52": undefined,
+  "36": undefined,
+  "42": undefined,
+  "12": undefined,
   subst: null,
   photo: null,
   growth: null,
   srw: null,
   oc: null,
-  coast: null,
+  coast: undefined,
 
-  paras: null,
+  paras: undefined,
   metal: undefined,
-  pion: null,
+  pion: undefined,
   genus: "",
   family: "",
   PH1: null,
@@ -134,7 +133,13 @@ const emptyForm = {
   COMM2: null,
 };
 const inputData = ["genus", "family"];
-const fullData = [...selectDataArea, ...rarityData, ...radioData, ...selectData, ...rangeData];
+const fullData = [
+  ...selectDataArea,
+  ...rarityData,
+  ...radioData,
+  ...selectData,
+  ...rangeData,
+];
 //console.log(radioData);
 //console.log(fullData);
 
@@ -153,7 +158,7 @@ export default function RadioGroupForm() {
     // Send the form data to the API
     console.log("fa qualcosa");
     console.log(JSON.stringify(data));
-    
+
     const response = await fetch("https://italic.units.it/api/v1/key-filter", {
       method: "POST",
       headers: {
@@ -177,7 +182,6 @@ export default function RadioGroupForm() {
       <Form {...form}>
         <div className="px-2 relative md:grid md:grid-cols-[1fr_300px]">
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            
             {/* for area */}
             {selectDataArea.map((data) => (
               <SelectForm key={data.id} form={form} data={data}></SelectForm>
