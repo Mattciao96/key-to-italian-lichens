@@ -84,7 +84,7 @@ const FormSchema = z.object({
 });
 
 const emptyForm = {
-  "4": null,
+  "4": undefined,
   "26": null,
   "45": null,
   "53": null,
@@ -111,7 +111,7 @@ const emptyForm = {
   coast: null,
 
   paras: null,
-  metal: null,
+  metal: undefined,
   pion: null,
   genus: "",
   family: "",
