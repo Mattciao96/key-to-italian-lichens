@@ -40,6 +40,7 @@ const FormSchema = z.object({
   "7": z.optional(z.enum(["1", "2"])),
   "27": z.optional(z.enum(["1", "2"])),
   "41": z.optional(z.enum(["1", "2"])),
+  "38": z.optional(z.enum(["1", "2"])),
   "23": z.optional(z.enum(["1", "2"])),
   "33": z.optional(z.enum(["1", "2"])),
   "46": z.optional(z.enum(["1", "2"])),
@@ -91,6 +92,7 @@ const emptyForm = {
   "7": undefined,
   "27": undefined,
   "41": undefined,
+  "38": undefined,
   "23": undefined,
   "33": undefined,
   "46": undefined,
@@ -108,7 +110,6 @@ const emptyForm = {
   srw: null,
   oc: null,
   coast: undefined,
-
   paras: undefined,
   metal: undefined,
   pion: undefined,

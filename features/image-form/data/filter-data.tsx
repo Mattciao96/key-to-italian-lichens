@@ -39,7 +39,7 @@ export const filterData = [
   {
     id: "53",
     title: "Thallus",
-    depend: { id: "45", item: "2" },
+    /* depend: { id: "45", item: "2" }, */
     items: [
       {
         text: "Crustose-placodioid, with marginal lobes",
@@ -69,7 +69,7 @@ export const filterData = [
   {
     id: "7",
     title: "Photobiont",
-    depend: { id: "11", item: "2" },
+    /* depend: { id: "11", item: "2" }, */
 
     items: [
       {
@@ -115,6 +115,23 @@ export const filterData = [
         text: "And/or apothecia of other colours",
         value: "2",
         image: "apothecia-yellow.png",
+      },
+    ],
+  },
+  {
+    id: "38",
+    title: "Vegetative diaspores (soredia, blastidia, isidia, schizidia etc.)",
+
+    items: [
+      {
+        text: "present (ascocarps often rare)",
+        value: "1",
+        image: "veg.png",
+      },
+      {
+        text: "absent",
+        value: "2",
+        image: "not-veg.png",
       },
     ],
   },
